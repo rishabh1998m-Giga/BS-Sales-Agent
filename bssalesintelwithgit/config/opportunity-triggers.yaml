@@ -1,0 +1,52 @@
+# Trigger taxonomy — Section 14. Every business event maps to exactly one
+# trigger_type. A company can hold multiple open triggers simultaneously.
+
+triggers:
+  IPO:
+    source_events: [ipo_confirmed, ipo_reported, ipo_possible, drhp_filed, ipo_approval, roadshow]
+    default_bs_products: [corporate_communication, branded_content, premium_display, thought_leadership]
+  FUNDRAISING:
+    source_events: [funding_round_closed, funding_announced, debt_raise, strategic_investment]
+    default_bs_products: [investor_visibility_content, branded_content, display]
+  PRODUCT_LAUNCH:
+    source_events: [product_launch, app_launch, platform_launch, new_category]
+    default_bs_products: [premium_display, roadblock, branded_content, newsletter]
+  MARKETING_CAMPAIGN:
+    source_events: [brand_campaign, digital_campaign, rebranding_campaign, ambassador_signing]
+    default_bs_products: [display, branded_content, homepage_takeover]
+  NEW_CMO:
+    source_events: [cmo_appointment, marketing_head_appointment, cbo_appointment, cco_appointment]
+    default_bs_products: [introductory_pitch, thought_leadership]
+  EXPANSION:
+    source_events: [new_city, new_office, new_plant, new_store, capacity_expansion]
+    default_bs_products: [business_audience_display, branded_content, thought_leadership]
+  INTERNATIONAL_EXPANSION:
+    source_events: [entering_india, entering_new_country, global_expansion]
+    default_bs_products: [corporate_communication, premium_display]
+  ACQUISITION:
+    source_events: [acquisition_announced, acquisition_completed, merger]
+    default_bs_products: [corporate_communication, branded_content, display]
+  MAJOR_PARTNERSHIP:
+    source_events: [strategic_partnership, jv_announced, government_contract, major_tender]
+    default_bs_products: [branded_content, corporate_communication]
+  EVENT:
+    source_events: [conference_hosted, flagship_event]
+    default_bs_products: [event_promotion, display, newsletter, content]
+  SPONSORSHIP:
+    source_events: [event_sponsorship, property_sponsorship]
+    default_bs_products: [event_promotion, display, content]
+  COMPETITOR_ADVERTISING:
+    source_events: [competitor_publisher_campaign]
+    default_bs_products: [competitor_leakage_pitch]
+  REBRANDING:
+    source_events: [name_change, logo_refresh, brand_repositioning]
+    default_bs_products: [corporate_storytelling, branded_content, display]
+  FINANCIAL_MILESTONE:
+    source_events: [quarterly_results, annual_results, record_revenue, turnaround]
+    default_bs_products: [corporate_storytelling, display]
+    note: "Not automatically an opportunity — analyze plausible comms need before scoring (Section 10)."
+  EMPLOYER_BRANDING:
+    source_events: [hiring_campaign, recruitment_drive, workplace_award]
+    default_bs_products: [digital_display, content]
+
+open_trigger_window_days: 90
