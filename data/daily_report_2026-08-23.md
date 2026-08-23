@@ -4,10 +4,9 @@ CLIENT INTELLIGENCE
 2026-08-23
 ================================
 
-## 1. TOP 10 NEW SALES OPPORTUNITIES
+## 1. TODAY'S NEW OR UPDATED SALES OPPORTUNITIES
 
 - **CRED** — score 84 (HOT, IMMEDIATE) — trigger: PRODUCT_LAUNCH
-- **PhonePe** — score 73 (WARM, MEDIUM_TERM) — trigger: IPO
 - **Navi Technologies** — score 73 (WARM, IMMEDIATE) — trigger: FUNDRAISING
 - **Ather Energy** — score 73 (WARM, IMMEDIATE) — trigger: PRODUCT_LAUNCH
 - **Garuda Aerospace** — score 66 (WARM, NEAR_TERM) — trigger: IPO
@@ -15,9 +14,8 @@ CLIENT INTELLIGENCE
 - **Yulu** — score 64 (WARM, NEAR_TERM) — trigger: FUNDRAISING
 - **River Mobility** — score 64 (WARM, NEAR_TERM) — trigger: FUNDRAISING
 - **Skyroot Aerospace** — score 62 (WARM, NEAR_TERM) — trigger: EXPANSION
-- **Rapido** — score 48 (WATCH, WATCH) — trigger: FUNDRAISING
 
-## 2. QUALIFIED-MARKET (BANGALORE/CHENNAI/HYDERABAD) COMPANIES WITH NEW BUSINESS TRIGGERS
+## 2. QUALIFIED-MARKET (BANGALORE/CHENNAI/HYDERABAD) COMPANIES WITH NEW BUSINESS TRIGGERS TODAY
 
 - Garuda Aerospace — IPO
 - Skyroot Aerospace — EXPANSION
@@ -28,69 +26,56 @@ CLIENT INTELLIGENCE
 - Navi Technologies — FUNDRAISING
 - Navi Technologies — IPO
 - Table Space Technologies — IPO
-- PhonePe — IPO
-- CRED — MAJOR_PARTNERSHIP
-- CRED — FUNDRAISING
-- Rapido — FUNDRAISING
 
-## 3. IPO OPPORTUNITIES
+## 3. IPO OPPORTUNITIES (NEW TODAY)
 
 - Garuda Aerospace — ipo_status=IPO_REPORTED, stage=SEBI approved (observation issued)
 - Table Space Technologies — ipo_status=IPO_REPORTED, stage=DRHP filed
-- PhonePe — ipo_status=IPO_REPORTED, stage=SEBI approved, updated DRHP filed, expected_timeline=Not yet announced
-- Groww (Billionbrains Garage Ventures) — ipo_status=IPO_CONFIRMED, stage=Listed
 
-## 4. FUNDRAISING OPPORTUNITIES
+## 4. FUNDRAISING OPPORTUNITIES (NEW TODAY)
 
 - Yulu — stage=Series C, amount=$93 million ($63M equity + $30M debt), date_announced=2026-08-12
 - River Mobility — stage=Series C, amount=$120 million, date_announced=2026-08-06
 - Navi Technologies — stage=Strategic/Growth, amount=$100 million, date_announced=2026-08-19
-- CRED — stage=Strategic investment, amount=$900M (~Rs 7,500 Cr), date_announced=2026-06-22
-- Rapido — stage=Growth capital, amount=$240M, date_announced=2026-05-15
 
-## 5. PRODUCT LAUNCHES
+## 5. PRODUCT LAUNCHES (NEW TODAY)
 
 - Ather Energy — product_name=EL01 (EL platform), launch_date=2026-08-29
 - CRED — product_name=Circle by CRED, launch_date=2026-08-18
 
-## 6. NEW MARKETING INITIATIVES
+## 6. NEW MARKETING INITIATIVES (NEW TODAY)
 
-_None yet._
+_None today._
 
-## 7. EXPANSION OPPORTUNITIES
+## 7. EXPANSION OPPORTUNITIES (NEW TODAY)
 
 - Skyroot Aerospace — expansion_type=new_plant, location=Thoothukudi, Tamil Nadu
 
-## 8. NEW MARKETING LEADERS
+## 8. NEW MARKETING LEADERS (NEW TODAY)
 
 - CRED — Miten Sampat (Interim CEO), 2026-06-22
-- PhonePe — Amit Doshi (Group Chief Marketing Officer), 2025-03-07
 
-## 9. COMPETITOR ADVERTISING
+## 9. COMPETITOR ADVERTISING (NEW TODAY)
 
-_None yet._
+_None today._
 
-## 10. COMPETITOR LEAKAGE
+## 10. COMPETITOR LEAKAGE (NEW TODAY)
 
-_None yet._
+_None today._
 
-## 11. MULTI-TRIGGER OPPORTUNITIES
+## 11. MULTI-TRIGGER OPPORTUNITIES (NEWLY SCORED TODAY)
 
 - CRED — 3 open triggers, score 84
 
-## 12. FOLLOW-UPS DUE
-
-_None due._
-
-## 13. TODAY'S TOP 5 ACTIONS
+## 12. TODAY'S TOP 5 ACTIONS
 
 1. **CRED** (score 84, HOT) — Pitch Circle launch coverage + a leadership Q&A with Miten Sampat (now confirmed as interim CEO) before the beta window closes.
-2. **PhonePe** (score 73, WARM) — Pitch pre-IPO corporate visibility package to Amit Doshi (Group CMO, ex-Britannia, hired specifically for IPO-era brand building) -- CONFIRM official email before outreach, none found publicly.
-3. **Navi Technologies** (score 73, WARM) — Pitch investor-visibility content tied to the Prosus round; confirm the IPO timeline independently before leading with it (currently INFERENCE-tier only).
-4. **Ather Energy** (score 73, WARM) — Pitch pre-launch coverage now, ahead of the Aug 29 Community Day event -- the window closes once the launch itself generates its own news cycle.
-5. **Garuda Aerospace** (score 66, WARM) — Pitch pre-IPO corporate visibility to Agnishwar Jayaprakash; confirm listing timeline stays live before leading with urgency language.
+2. **Navi Technologies** (score 73, WARM) — Pitch investor-visibility content tied to the Prosus round; confirm the IPO timeline independently before leading with it (currently INFERENCE-tier only).
+3. **Ather Energy** (score 73, WARM) — Pitch pre-launch coverage now, ahead of the Aug 29 Community Day event -- the window closes once the launch itself generates its own news cycle.
+4. **Garuda Aerospace** (score 66, WARM) — Pitch pre-IPO corporate visibility to Agnishwar Jayaprakash; confirm listing timeline stays live before leading with urgency language.
+5. **Table Space Technologies** (score 64, WARM) — Pitch pre-IPO corporate-communication package to Co-CEO Karan Chopra; a CMO name (Megha Agarwal, per one directory listing) surfaced but is unverified - confirm the current marketing lead before including them in outreach.
 
-## 14. TODAY'S PITCHES
+## 13. TODAY'S PITCHES
 
 
 ### CRED (score 84, HOT)
@@ -121,37 +106,6 @@ Anticipated pushback and how to answer, based only on what's verified for this o
 - "We already have coverage elsewhere / another publisher reached out first" -> lead with the specific trigger (PRODUCT_LAUNCH) and why the BS business/investor audience fits it better than a general news outlet -- see: BS's business/investor-decision-maker audience overlaps directly with the 'affluent Indians' Circle is targeting, and with the corporate-narrative audience needed post-leadership-transition.
 - "What does this cost?" -> do not quote a number; say pricing is being confirmed with sales ops and ask what budget range/objective they have in mind first.
 - "Why now, specifically?" -> restate why_now verbatim, it's time-bound: Circle beta went live 5 days ago and is still in its awareness/waitlist-expansion window; it also gives BS a confirmed interim-CEO contact where the prior brief had none.
-- If the contact pushes on a claim not in the record above, do not improvise an answer -- say you'll confirm and follow up, then verify before replying.
-
-
-### PhonePe (score 73, WARM)
-
-```
-Subject: PhonePe (Group Chief Marketing Officer) -- IPO idea from Business Standard
-
-Hi Amit,
-
-PhonePe's IPO is actively in motion — updated DRHP filed post-SEBI-approval, media and investor attention is elevated right now, and no listing date has been fixed yet, meaning the pre-listing visibility window is still open.
-
-A ~$15B fintech going public via an all-OFS structure has a specific narrative need: convincing the market of durable value beyond the selling shareholders' exit, distinct from a routine fundraise pitch.
-
-Building investor and business-audience confidence ahead of listing, independent of the underlying OFS mechanics.
-
-Business Standard's core audience (investors, business decision-makers) is exactly who PhonePe needs to reach during the pre-IPO quiet-to-loud period. We'd suggest starting the conversation around: Corporate Communication Package, Premium Display, Thought Leadership Content.
-
-PRICING: CONFIRM WITH SALES OPS before quoting anything -- this draft intentionally
-does not include rates or specific inventory availability.
-
-Happy to set up a short call this week if useful.
-
--- Business Standard, Digital Ad Sales
-```
-
-_Objection handling:_
-Anticipated pushback and how to answer, based only on what's verified for this opportunity (classification: WARM):
-- "We already have coverage elsewhere / another publisher reached out first" -> lead with the specific trigger (IPO) and why the BS business/investor audience fits it better than a general news outlet -- see: Business Standard's core audience (investors, business decision-makers) is exactly who PhonePe needs to reach during the pre-IPO quiet-to-loud period.
-- "What does this cost?" -> do not quote a number; say pricing is being confirmed with sales ops and ask what budget range/objective they have in mind first.
-- "Why now, specifically?" -> restate why_now verbatim, it's time-bound: PhonePe's IPO is actively in motion — updated DRHP filed post-SEBI-approval, media and investor attention is elevated right now, and no listing date has been fixed yet, meaning the pre-listing visibility window is still open.
 - If the contact pushes on a claim not in the record above, do not improvise an answer -- say you'll confirm and follow up, then verify before replying.
 
 
@@ -372,69 +326,22 @@ Anticipated pushback and how to answer, based only on what's verified for this o
 - If the contact pushes on a claim not in the record above, do not improvise an answer -- say you'll confirm and follow up, then verify before replying.
 
 
-## 15. CALENDAR-DRIVEN OPPORTUNITIES
+## 14. CALENDAR-DRIVEN OPPORTUNITIES (NEXT 90 DAYS)
 
-_None in the next 45 days._
+_None in the next 90 days._
 
 _Note: festive-season (Navratri-Diwali) dates shift yearly and are not computed mechanically here -- confirmed during research when in range, per config/calendar-triggers.yaml._
 
-## 16. RISK FLAGS
+## 15. RISK FLAGS
 
 _None flagged._
 
-## 17. INDUSTRY MOVEMENT (Exchange4Media / afaqs! -- Bangalore/Chennai/Hyderabad only)
+## 16. INDUSTRY MOVEMENT (Exchange4Media / afaqs! -- Bangalore/Chennai/Hyderabad only)
 
 _None found this pass. Separate from Sections 9-10 -- see config/industry-movement-sources.yaml._
 
-## Live timed test run (requested directly) -- what was measured
-
-This was a real, live research pass, not a simulation: verified and added **Garuda Aerospace**
-(Chennai HQ, CIN U74900TN2015PLC102474 -- first Chennai-qualified opportunity under the broadened
-scope) and **Skyroot Aerospace** (Hyderabad HQ, CIN U74999TG2018PTC125073 -- first Hyderabad-qualified
-opportunity), both scored WARM. Also checked Exchange4Media/afaqs! for Bangalore/Chennai/Hyderabad-
-relevant industry movement news -- genuine null result this pass (found unrelated CMO moves at
-Emaar India and Sephora APAC, neither qualifies).
-
-**Timing, and an important caveat:** the research-plus-scoring-plus-report-regeneration portion of
-this pass (2 new companies verified end-to-end, report rebuilt, tests re-run) took about **2.5
-minutes** of active work. That number is NOT a reliable estimate for the actual unattended daily job,
-because this session already had the repo cloned, dependencies installed, and every config/doc file
-already read from earlier work today -- a real cold-start automated run repeats all of that, PLUS
-re-checks all 10 already-tracked companies for updates (not just 2 new ones), runs the editorial scan
-across 5 publishers, checks risk flags and contact movement for every tracked company, and commits/
-pushes to GitHub. The honest answer on how long the real daily job takes will only be known once it
-actually fires unattended tomorrow morning -- this number is a partial, warm-context slice, not that
-measurement.
-
-## Companies checked before adding new ones (per this run's instruction to avoid duplicates)
-
-Before researching new companies, the companies table was queried directly. It held 10 rows going into
-this pass — **PhonePe, CRED, Rapido, Groww, Meesho, Navi Technologies, Table Space Technologies,
-Ather Energy, Yulu, River Mobility** (all Bangalore HQ, from the two earlier passes today). Garuda
-Aerospace and Skyroot Aerospace are new additions from this pass, and are the first companies in
-this database qualified via the Chennai and Hyderabad HQ statuses respectively.
-
-## Competitor-advertising sweep (Sections 9-10) — genuine null result, ad-research list now 5 publishers
-
-Per direct instruction, CNBC-TV18, BusinessLine, and Deccan Herald were removed from ad-research
-coverage this pass — the list is now Economic Times, Times of India, Moneycontrol, Mint, Financial
-Express. Checked all 5 for paid placements by the 12 tracked companies; found general marketing-spend
-disclosures (PhonePe: Rs 455 Cr H1 FY26; Meesho: Rs 227 Cr Q1 FY26) but no dated, sourced evidence of
-a specific ad placement on any of the 5 named publishers. Direct browser/page-fetch access to these
-sites remains blocked by this environment's network policy (confirmed earlier) -- press/trade-media
-coverage is the only viable discovery method, and it will not catch routine day-to-day inventory.
-
-## What this run did NOT cover
-
-- **The `.claude/skills` orchestration this project was designed around still doesn't exist anywhere
-  reachable** — this report was produced by following `docs/master-spec.md` directly.
-- **Sections 6-7 (marketing initiatives, expansion beyond Skyroot's)** — no dedicated search pass
-  this run beyond what surfaced incidentally.
-- **No official email found** for either new contact (Agnishwar Jayaprakash, Pawan Kumar Chandana) —
-  confirm a channel before outreach.
-- **Contact enrichment (phone/email) and Gmail draft creation did not run** — Lusha/Gmail tools were
-  not available to this session for this pass; pitch drafts in Section 14 are template-assembled
-  text, not sent or drafted anywhere.
-- **This report has NOT been emailed** — Gmail is connected to the account but was not enabled for
-  this chat session at the time of this run, so sending was not possible; see the chat response for
-  how to enable it.
+---
+_Format change today, per instruction: Follow-ups section removed (never had a writer, always empty).
+Sections 1-11 now show only today's new/changed items -- PhonePe and Rapido (unchanged since Aug 21)
+correctly no longer repeat here; full standing pipeline lives in the weekly rollup instead. Calendar
+lookahead widened 45->90 days for inventory pre-planning._

@@ -13,30 +13,33 @@
 macro_windows:
   - name: "Fiscal year-end budget flush"
     window: "03-01 to 03-31"
-    lead_days: 30
+    lead_days: 60
     note: >
       Indian corporate fiscal year ends March 31 -- unspent marketing/ad
       budgets are often used or lost, making Feb-March a strong pitch window
-      for any qualified company, especially larger/listed ones.
+      for any qualified company, especially larger/listed ones. Flagged 60
+      days out (from early January) so inventory/roadblocks can be pre-sold
+      well ahead of the rush.
   - name: "Union Budget reaction period"
     window: "02-01 to 02-15"
-    lead_days: 10
+    lead_days: 30
     note: >
       Post-Budget-day (Feb 1) coverage cycle -- companies reacting to
       policy/tax changes relevant to their sector often want visibility.
   - name: "Festive season (Navratri-Diwali)"
     window: "movable, roughly late Sep-early Nov (Navratri through Diwali)"
-    lead_days: 45
+    lead_days: 60
     note: >
       Exact dates shift with the lunar calendar every year -- confirm the
       current year's Navratri/Diwali dates via a real source each time this
       window is evaluated (do not hardcode a fixed date). Consumer and B2C
       ad spend historically peaks in this window; still subject to the
       target-criteria.yaml high-ticket-B2C filter -- routine FMCG festive
-      pushes don't qualify just because it's festive season.
+      pushes don't qualify just because it's festive season. Flagged 60
+      days out for inventory pre-planning.
   - name: "Earnings season (post-quarter results)"
     window: "recurring ~2-6 weeks after each fiscal quarter end (Jun 30 / Sep 30 / Dec 31 / Mar 31)"
-    lead_days: 14
+    lead_days: 30
     note: >
       Applies only to already-tracked LISTED companies (is_listed=1) --
       quarterly results are a recurring corporate-storytelling opportunity,

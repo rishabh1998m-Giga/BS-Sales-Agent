@@ -47,8 +47,9 @@ config/
                             on top of the city-HQ gate.
   calendar-triggers.yaml   Macro calendar windows (fiscal year-end, Union
                             Budget, festive season, earnings season) for
-                            Section 15 -- company-specific dates live in
-                            the company_key_dates DB table instead.
+                            Section 14 (90-day lookahead) -- company-
+                            specific dates live in the company_key_dates
+                            DB table instead.
   scoring.yaml             0-100 scoring weights, HOT/WARM/WATCH/LOW bands,
                             timing windows, qualified-city HQ gate,
                             multi-trigger bonus.
@@ -62,9 +63,11 @@ src/
   db/                      schema.sql, init_db.py, repo.py (data-access layer)
   scoring/                 scorer.py (pure scoring function over the config)
   pitch/                   generate_pitch.py (pure pitch-draft templating, no invented facts)
-  reports/                 generate_daily_report.py (daily report incl. Section 14-16:
-                            pitches, calendar-driven opportunities, risk flags),
-                            generate_weekly_report.py (Friday pipeline rollup)
+  reports/                 generate_daily_report.py (daily report, Sections 1-11 scoped
+                            to today only so unchanged items aren't repeated; Section
+                            13-15: pitches, calendar-driven opportunities, risk flags),
+                            generate_weekly_report.py (Friday pipeline rollup -- the
+                            full standing-pipeline view, not scoped to a single day)
 data/                      Raw research working files, if any (companies/,
                             events/, campaigns/, opportunities/, pipeline/)
 database/

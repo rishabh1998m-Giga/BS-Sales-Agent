@@ -231,10 +231,10 @@ def recent_industry_movements(conn: sqlite3.Connection, days: int = 3):
 
 def top_opportunities(conn: sqlite3.Connection, qualified_only: bool = True, limit: int = 10):
     """
-    One row per company: its most recently scored opportunity. Without this,
-    a company re-scored on a later day (new trigger, updated info) would
-    show up alongside its own stale earlier row, sometimes with contradictory
-    recommended_action text once the earlier row's open question is resolved.
+    One row per company: its most recently scored opportunity, regardless of
+    when it was scored. This is the full current pipeline view (used by the
+    weekly rollup) -- for the DAILY report, use todays_opportunities()
+    instead so yesterday's unchanged opportunities aren't repeated.
 
     qualified_only filters to companies that passed the city-HQ hard gate
     (Bangalore, Chennai, or Hyderabad HQ -- see config/cities.yaml).
@@ -252,3 +252,23 @@ def top_opportunities(conn: sqlite3.Connection, qualified_only: bool = True, lim
         query += " AND o.is_qualified_target = 1"
     query += " ORDER BY o.score DESC LIMIT ?"
     return conn.execute(query, (limit,)).fetchall()
+
+
+def todays_opportunities(conn: sqlite3.Connection, report_date: str, qualified_only: bool = True, limit: int = 10):
+    """
+    Same shape as top_opportunities(), but restricted to opportunities
+    actually (re)scored ON report_date. This is what the daily report
+    should use: a company that hasn't changed since an earlier report
+    (e.g. CRED scored yesterday, nothing new today) is correctly absent
+    today rather than repeated -- avoids re-reporting the same thing
+    (and re-generating its pitch draft) day after day for no reason.
+    """
+    query = """
+        SELECT o.*, c.name AS company_name FROM opportunities o
+        JOIN companies c ON c.company_id = o.company_id
+        WHERE date(o.scored_at) = date(?)
+    """
+    if qualified_only:
+        query += " AND o.is_qualified_target = 1"
+    query += " ORDER BY o.score DESC LIMIT ?"
+    return conn.execute(query, (report_date, limit)).fetchall()
