@@ -105,6 +105,19 @@ def _migrate_qualified_hq_model(conn: sqlite3.Connection) -> None:
         conn.execute("PRAGMA foreign_keys = ON")
 
 
+def _migrate_pitch_columns(conn: sqlite3.Connection) -> None:
+    """
+    2026-08-23: added opportunities.pitch_draft / objection_notes (Section 14).
+    Plain ADD COLUMN is safe here -- both are nullable, no CHECK/rebuild needed.
+    """
+    cols = [row[1] for row in conn.execute("PRAGMA table_info(opportunities)").fetchall()]
+    if "pitch_draft" not in cols:
+        conn.execute("ALTER TABLE opportunities ADD COLUMN pitch_draft TEXT")
+    if "objection_notes" not in cols:
+        conn.execute("ALTER TABLE opportunities ADD COLUMN objection_notes TEXT")
+    conn.commit()
+
+
 def init_db(db_path: Path = DB_PATH, schema_path: Path = SCHEMA_PATH) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     schema_sql = schema_path.read_text()
@@ -113,6 +126,7 @@ def init_db(db_path: Path = DB_PATH, schema_path: Path = SCHEMA_PATH) -> None:
         conn.executescript(schema_sql)
         conn.commit()
         _migrate_qualified_hq_model(conn)
+        _migrate_pitch_columns(conn)
     finally:
         conn.close()
     print(f"Database ready at {db_path}")

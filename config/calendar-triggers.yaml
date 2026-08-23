@@ -1,0 +1,49 @@
+# Calendar-driven opportunity windows (added 2026-08-23) -- Section 15.
+# These are predictable, date-based windows worth pitching around regardless
+# of whether there's fresh news that day. Two kinds:
+#   1. macro_windows: apply to ALL qualified-city companies broadly.
+#   2. Per-company recurring dates live in the company_key_dates DB table
+#      (founding anniversaries, landmark product-launch anniversaries, etc.)
+#      -- research and record those per company; this file is only the
+#      shared/macro calendar.
+#
+# `lead_days` = how many days BEFORE the window starts to begin flagging it,
+# so there's time to actually pitch before the moment passes.
+
+macro_windows:
+  - name: "Fiscal year-end budget flush"
+    window: "03-01 to 03-31"
+    lead_days: 30
+    note: >
+      Indian corporate fiscal year ends March 31 -- unspent marketing/ad
+      budgets are often used or lost, making Feb-March a strong pitch window
+      for any qualified company, especially larger/listed ones.
+  - name: "Union Budget reaction period"
+    window: "02-01 to 02-15"
+    lead_days: 10
+    note: >
+      Post-Budget-day (Feb 1) coverage cycle -- companies reacting to
+      policy/tax changes relevant to their sector often want visibility.
+  - name: "Festive season (Navratri-Diwali)"
+    window: "movable, roughly late Sep-early Nov (Navratri through Diwali)"
+    lead_days: 45
+    note: >
+      Exact dates shift with the lunar calendar every year -- confirm the
+      current year's Navratri/Diwali dates via a real source each time this
+      window is evaluated (do not hardcode a fixed date). Consumer and B2C
+      ad spend historically peaks in this window; still subject to the
+      target-criteria.yaml high-ticket-B2C filter -- routine FMCG festive
+      pushes don't qualify just because it's festive season.
+  - name: "Earnings season (post-quarter results)"
+    window: "recurring ~2-6 weeks after each fiscal quarter end (Jun 30 / Sep 30 / Dec 31 / Mar 31)"
+    lead_days: 14
+    note: >
+      Applies only to already-tracked LISTED companies (is_listed=1) --
+      quarterly results are a recurring corporate-storytelling opportunity,
+      not a fresh discovery trigger. Cross-reference against
+      config/opportunity-triggers.yaml FINANCIAL_MILESTONE.
+
+note: >
+  A macro window is a REASON to check a company, not proof it's a good pitch
+  by itself -- still apply the city-HQ gate and target-criteria.yaml filter
+  before treating anything found this way as a real opportunity.

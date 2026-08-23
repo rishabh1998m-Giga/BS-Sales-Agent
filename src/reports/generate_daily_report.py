@@ -17,12 +17,61 @@ import json
 import sys
 from pathlib import Path
 
+import yaml
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from db.repo import connect, top_opportunities  # noqa: E402
+from db.repo import connect, top_opportunities, upcoming_key_dates, active_risk_flags  # noqa: E402
+from pitch.generate_pitch import build_pitch, _load_product_labels  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[2]
+CALENDAR_CONFIG_PATH = ROOT / "config" / "calendar-triggers.yaml"
 
 
 def section(title: str) -> str:
     return f"\n## {title}\n"
+
+
+def _fixed_macro_windows(today: dt.date) -> list[dict]:
+    """
+    Evaluates only the macro_windows in calendar-triggers.yaml with a literal
+    'MM-DD to MM-DD' range (fiscal year-end, Union Budget). The festive-season
+    window is explicitly "movable" (lunar calendar) and is NOT computed here
+    -- it must be confirmed against a real source during research, not
+    hardcoded; see the note returned alongside the fixed windows.
+    """
+    if not CALENDAR_CONFIG_PATH.exists():
+        return []
+    cfg = yaml.safe_load(CALENDAR_CONFIG_PATH.read_text())
+    matches = []
+    for w in cfg.get("macro_windows", []):
+        window = w.get("window", "")
+        if " to " not in window or "movable" in window:
+            continue
+        start_str, end_str = [s.strip() for s in window.split(" to ")]
+        try:
+            sm, sd = (int(x) for x in start_str.split("-"))
+            em, ed = (int(x) for x in end_str.split("-"))
+        except ValueError:
+            continue
+        start = dt.date(today.year, sm, sd)
+        end = dt.date(today.year, em, ed)
+        lead_days = w.get("lead_days", 0)
+        flag_from = start - dt.timedelta(days=lead_days)
+        # handle a window that already passed this year by also checking next year's occurrence
+        for candidate_start, candidate_end, candidate_flag_from in (
+            (start, end, flag_from),
+            (dt.date(today.year + 1, sm, sd), dt.date(today.year + 1, em, ed),
+             dt.date(today.year + 1, sm, sd) - dt.timedelta(days=lead_days)),
+        ):
+            if candidate_flag_from <= today <= candidate_end:
+                status = "ACTIVE NOW" if candidate_start <= today <= candidate_end else "UPCOMING"
+                matches.append({
+                    "name": w["name"], "status": status,
+                    "window_start": candidate_start.isoformat(), "window_end": candidate_end.isoformat(),
+                    "note": w.get("note", "").strip(),
+                })
+                break
+    return matches
 
 
 def fmt_opportunity_line(row) -> str:
@@ -150,6 +199,67 @@ def build_report(conn, report_date: str) -> str:
             )
     else:
         lines.append("_No qualified opportunities scored yet._")
+
+    lines.append(section("14. TODAY'S PITCHES"))
+    warm_plus = [r for r in top_opportunities(conn, qualified_only=True, limit=10)
+                 if r["classification"] in ("HOT", "WARM")]
+    if warm_plus:
+        labels = _load_product_labels()
+        for r in warm_plus:
+            contact_name = contact_title = None
+            if r["recommended_contact_id"]:
+                contact = conn.execute(
+                    "SELECT name, title FROM contacts WHERE contact_id = ?",
+                    (r["recommended_contact_id"],),
+                ).fetchone()
+                if contact:
+                    contact_name, contact_title = contact["name"], contact["title"]
+            if not r["pitch_draft"]:
+                pitch = build_pitch(dict(r), r["company_name"], contact_name, contact_title, labels)
+                conn.execute(
+                    "UPDATE opportunities SET pitch_draft = ?, objection_notes = ? WHERE opportunity_id = ?",
+                    (pitch["pitch_draft"], pitch["objection_notes"], r["opportunity_id"]),
+                )
+                conn.commit()
+                pitch_draft, objection_notes = pitch["pitch_draft"], pitch["objection_notes"]
+            else:
+                pitch_draft, objection_notes = r["pitch_draft"], r["objection_notes"]
+            lines.append(f"\n### {r['company_name']} (score {r['score']}, {r['classification']})\n")
+            lines.append("```")
+            lines.append(pitch_draft)
+            lines.append("```")
+            lines.append(f"\n_Objection handling:_\n{objection_notes}\n")
+    else:
+        lines.append("_No WARM-or-better opportunities to pitch today._")
+
+    lines.append(section("15. CALENDAR-DRIVEN OPPORTUNITIES"))
+    key_dates = upcoming_key_dates(conn, window_days=45)
+    macro = _fixed_macro_windows(dt.date.today())
+    if key_dates:
+        lines.append("**Company-specific dates:**")
+        for k in key_dates:
+            lines.append(
+                f"- {k['company_name']} — {k['label'] or k['date_type']} on {k['next_occurrence']} "
+                f"({k['days_away']}d away)"
+            )
+    if macro:
+        lines.append("\n**Macro calendar windows:**" if key_dates else "**Macro calendar windows:**")
+        for m in macro:
+            lines.append(f"- {m['name']} — {m['status']} ({m['window_start']} to {m['window_end']})")
+    if not key_dates and not macro:
+        lines.append("_None in the next 45 days._")
+    lines.append(
+        "\n_Note: festive-season (Navratri-Diwali) dates shift yearly and are not computed "
+        "mechanically here -- confirmed during research when in range, per config/calendar-triggers.yaml._"
+    )
+
+    lines.append(section("16. RISK FLAGS"))
+    risks = active_risk_flags(conn)
+    if risks:
+        for r in risks:
+            lines.append(f"- **{r['company_name']}** — {r['risk_type']} ({r['severity']}): {r['description']}")
+    else:
+        lines.append("_None flagged._")
 
     return "\n".join(lines)
 

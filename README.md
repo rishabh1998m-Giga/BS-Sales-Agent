@@ -45,6 +45,10 @@ config/
                             territories (all three, as of 2026-08-23).
   target-criteria.yaml     B2B / high-ticket-B2C brand-fit filter, applied
                             on top of the city-HQ gate.
+  calendar-triggers.yaml   Macro calendar windows (fiscal year-end, Union
+                            Budget, festive season, earnings season) for
+                            Section 15 -- company-specific dates live in
+                            the company_key_dates DB table instead.
   scoring.yaml             0-100 scoring weights, HOT/WARM/WATCH/LOW bands,
                             timing windows, qualified-city HQ gate,
                             multi-trigger bonus.
@@ -57,7 +61,10 @@ config/
 src/
   db/                      schema.sql, init_db.py, repo.py (data-access layer)
   scoring/                 scorer.py (pure scoring function over the config)
-  reports/                 generate_daily_report.py (renders Section 23 report)
+  pitch/                   generate_pitch.py (pure pitch-draft templating, no invented facts)
+  reports/                 generate_daily_report.py (daily report incl. Section 14-16:
+                            pitches, calendar-driven opportunities, risk flags),
+                            generate_weekly_report.py (Friday pipeline rollup)
 data/                      Raw research working files, if any (companies/,
                             events/, campaigns/, opportunities/, pipeline/)
 database/
