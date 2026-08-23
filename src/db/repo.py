@@ -57,7 +57,9 @@ def set_hq_status(
 ) -> int:
     assert hq_status in (
         "BANGALORE_HQ_VERIFIED",
-        "NON_BANGALORE_HQ_VERIFIED",
+        "CHENNAI_HQ_VERIFIED",
+        "HYDERABAD_HQ_VERIFIED",
+        "NON_QUALIFIED_HQ_VERIFIED",
         "HQ_UNVERIFIED",
     ), f"invalid hq_status: {hq_status}"
     cur = conn.execute(
@@ -110,12 +112,15 @@ def insert_opportunity(conn: sqlite3.Connection, company_id: int, **fields) -> i
     return cur.lastrowid
 
 
-def top_opportunities(conn: sqlite3.Connection, bangalore_only: bool = True, limit: int = 10):
+def top_opportunities(conn: sqlite3.Connection, qualified_only: bool = True, limit: int = 10):
     """
     One row per company: its most recently scored opportunity. Without this,
     a company re-scored on a later day (new trigger, updated info) would
     show up alongside its own stale earlier row, sometimes with contradictory
     recommended_action text once the earlier row's open question is resolved.
+
+    qualified_only filters to companies that passed the city-HQ hard gate
+    (Bangalore, Chennai, or Hyderabad HQ -- see config/cities.yaml).
     """
     query = """
         SELECT o.*, c.name AS company_name FROM opportunities o
@@ -126,7 +131,7 @@ def top_opportunities(conn: sqlite3.Connection, bangalore_only: bool = True, lim
             ORDER BY o2.scored_at DESC, o2.opportunity_id DESC LIMIT 1
         )
     """
-    if bangalore_only:
-        query += " AND o.is_qualified_bangalore = 1"
+    if qualified_only:
+        query += " AND o.is_qualified_target = 1"
     query += " ORDER BY o.score DESC LIMIT ?"
     return conn.execute(query, (limit,)).fetchall()

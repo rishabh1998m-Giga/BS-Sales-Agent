@@ -1,0 +1,43 @@
+# Target-audience / brand-fit criteria (added 2026-08-23, per explicit
+# instruction). Applied ON TOP OF the city-HQ hard gate in cities.yaml --
+# a company can pass the HQ gate and still be EXCLUDED here if it isn't the
+# kind of advertiser Business Standard's ad-sales team wants to pitch. This
+# is a qualitative screen a research pass must apply BEFORE scoring a
+# company at all, not a scoring dimension in scorer.py.
+
+rule: >
+  Exclude ordinary, mass-market B2C brands regardless of size or fame --
+  daily FMCG, packaged foods, budget consumer goods, routine/low-
+  consideration purchases. (A brand like Britannia is EXCLUDED as an
+  illustrative example of what NOT to pursue, even though it is large,
+  well-known, and Bangalore-adjacent in various ways -- fame and trigger
+  strength do not override this filter.)
+
+  INCLUDE:
+    1. Any B2B brand, regardless of ticket size.
+    2. A B2C brand ONLY if its typical product/purchase is a considered,
+       higher-ticket decision rather than routine/daily consumption.
+       Illustrative examples of the CATEGORY that qualifies (not an
+       exhaustive list): Duroflex, Wakefit (premium mattresses/furniture),
+       a luxury/premium automotive brand such as Lexus. Apply the same
+       "is this a considered, higher-ticket purchase" test to any new B2C
+       brand found -- these are examples of the bar, not the full list.
+
+screening_questions:
+  - "Is this a B2B brand (sells to businesses, not consumers)? -> qualifies
+     regardless of ticket size."
+  - "If B2C: is the typical purchase a considered, higher-ticket decision
+     (furniture, premium appliances, automobiles, real estate, high-end
+     electronics, premium financial products) rather than routine/daily/
+     low-consideration spend (FMCG, snacks, budget personal care, mass
+     quick-commerce staples)? -> only the former qualifies."
+  - "Genuinely unsure? Say so explicitly in the report rather than
+     silently including or excluding the company."
+
+note: >
+  This filter is a judgment call each research pass must make and record
+  explicitly (in why_this_company or a dedicated note) -- there is no
+  numeric ticket-size field to look up mechanically. Cite the evidence
+  used to judge B2B-vs-B2C / ticket size wherever possible (published
+  price points, deal sizes, target-customer language in company
+  communications).

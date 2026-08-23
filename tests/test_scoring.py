@@ -13,21 +13,30 @@ def test_weights_sum_to_100():
     assert sum(cfg["weights"].values()) == 100
 
 
-def test_bangalore_gate_blocks_non_bangalore():
+def test_qualified_gate_blocks_non_qualified():
     result = score_opportunity(
         sub_scores={k: 1.0 for k in load_config()["weights"]},
-        hq_status="NON_BANGALORE_HQ_VERIFIED",
+        hq_status="NON_QUALIFIED_HQ_VERIFIED",
     )
-    assert result["is_qualified_bangalore"] == 0
+    assert result["is_qualified_target"] == 0
     assert result["score"] == 100  # score still computed, just not qualified
 
 
-def test_bangalore_gate_allows_verified():
+def test_qualified_gate_allows_bangalore():
     result = score_opportunity(
         sub_scores={k: 1.0 for k in load_config()["weights"]},
         hq_status="BANGALORE_HQ_VERIFIED",
     )
-    assert result["is_qualified_bangalore"] == 1
+    assert result["is_qualified_target"] == 1
+
+
+def test_qualified_gate_allows_chennai_and_hyderabad():
+    for hq_status in ("CHENNAI_HQ_VERIFIED", "HYDERABAD_HQ_VERIFIED"):
+        result = score_opportunity(
+            sub_scores={k: 1.0 for k in load_config()["weights"]},
+            hq_status=hq_status,
+        )
+        assert result["is_qualified_target"] == 1
 
 
 def test_hq_unverified_is_not_qualified():
@@ -35,7 +44,7 @@ def test_hq_unverified_is_not_qualified():
         sub_scores={k: 1.0 for k in load_config()["weights"]},
         hq_status="HQ_UNVERIFIED",
     )
-    assert result["is_qualified_bangalore"] == 0
+    assert result["is_qualified_target"] == 0
 
 
 def test_multi_trigger_bonus_applied():

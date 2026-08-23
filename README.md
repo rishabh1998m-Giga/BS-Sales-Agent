@@ -12,14 +12,20 @@ Cowork's cloud sandbox): `docs/RUNBOOK.md`.
 
 ## Core question this answers every day
 
-**"Which Bangalore-headquartered companies should I approach today, and
-WHY?"**
+**"Which Bangalore/Chennai/Hyderabad-headquartered companies should I
+approach today, and WHY?"**
 
-## Hard rule
+## Hard rules
 
-A company only counts as a Bangalore opportunity if its **headquarters**
-(not office, not campaign, not founder) is in Bangalore. See
-`.claude/skills/hq-verification/SKILL.md`.
+- A company only counts as an opportunity if its **headquarters** (not
+  office, not campaign, not founder) is in Bangalore, Chennai, or
+  Hyderabad — international companies qualify via their **India head
+  office** location instead. See `config/cities.yaml` and
+  `.claude/skills/hq-verification/SKILL.md`.
+- It must also pass the **target-audience filter**: any B2B brand, or a
+  B2C brand only if it's a considered, higher-ticket purchase (not
+  ordinary mass-market FMCG/consumer goods). See
+  `config/target-criteria.yaml`.
 
 ## Project structure
 
@@ -35,12 +41,16 @@ A company only counts as a Bangalore opportunity if its **headquarters**
                             prospect-researcher, opportunity-analyzer,
                             sales-analyst) matching the pipeline stages.
 config/
-  cities.yaml              Bangalore = primary territory; Chennai/Hyderabad
-                            = market intelligence only.
+  cities.yaml              Bangalore, Chennai, Hyderabad = qualified sales
+                            territories (all three, as of 2026-08-23).
+  target-criteria.yaml     B2B / high-ticket-B2C brand-fit filter, applied
+                            on top of the city-HQ gate.
   scoring.yaml             0-100 scoring weights, HOT/WARM/WATCH/LOW bands,
-                            timing windows, Bangalore HQ gate,
+                            timing windows, qualified-city HQ gate,
                             multi-trigger bonus.
-  publishers.yaml          Competitor publishers monitored.
+  publishers.yaml          8 monitored publishers -- checked both for
+                            competitor ad placements and for editorial
+                            coverage of qualified-city brands.
   opportunity-triggers.yaml Trigger taxonomy -> default BS product mapping.
   business-standard.yaml   BS product catalogue (edit before real pitches —
                             no invented inventory/pricing).

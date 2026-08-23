@@ -1,8 +1,10 @@
 # Business Standard Sales Intelligence Agent — Master Specification
 
 Owner: Boss (Business Standard, Digital Ad Sales)
-Primary qualification market: **Bangalore (Bengaluru) headquarters only**
-Market-intelligence-only cities: Chennai, Hyderabad
+Qualified markets (updated 2026-08-23): **Bangalore (Bengaluru), Chennai, and
+Hyderabad headquarters** -- see Section 2/3 and config/cities.yaml. Chennai
+and Hyderabad were market-intelligence-only before 2026-08-23; that
+restriction has been lifted.
 
 ## 1. Core objective
 
@@ -20,19 +22,40 @@ event that may create an advertising opportunity.
 
 ## 2. Critical regional HQ rule (hard gate)
 
-A company qualifies for the Bangalore opportunity list **only** if its
-headquarters — not office, not branch, not founder residence, not
-campaign geography — is in Bangalore. Statuses:
-`BANGALORE_HQ_VERIFIED`, `NON_BANGALORE_HQ_VERIFIED`, `HQ_UNVERIFIED`.
-Only the first appears in the qualified list; uncertain cases go to the
-`HQ_VERIFICATION_QUEUE` and are never assumed. See
-`.claude/skills/hq-verification/SKILL.md` for the enforcement mechanism.
+A company qualifies for the opportunity list **only** if its headquarters
+— not office, not branch, not founder residence, not campaign geography —
+is in Bangalore, Chennai, or Hyderabad. For an **international** company
+(global HQ outside India), it qualifies if its **India head office** is in
+one of those three cities — the global HQ location is irrelevant in that
+case, but a foreign company merely opening *an* office there while basing
+its India operations elsewhere does not qualify. Statuses:
+`BANGALORE_HQ_VERIFIED`, `CHENNAI_HQ_VERIFIED`, `HYDERABAD_HQ_VERIFIED`,
+`NON_QUALIFIED_HQ_VERIFIED`, `HQ_UNVERIFIED`. Only the first three appear
+in the qualified list; uncertain cases go to the `HQ_VERIFICATION_QUEUE`
+and are never assumed. See `.claude/skills/hq-verification/SKILL.md` for
+the enforcement mechanism (where it exists) and `config/cities.yaml` for
+the canonical rule text.
 
 ## 3. Target cities
 
-Bangalore is the primary sales territory. Chennai and Hyderabad are
-researchable as separate market intelligence but never auto-promoted into
-the Bangalore qualified list.
+Bangalore, Chennai, and Hyderabad are all qualified sales territories as
+of 2026-08-23 (see `config/cities.yaml`), scored and reported identically.
+Bangalore remains the most-covered market in practice. Before 2026-08-23,
+Chennai and Hyderabad were market-intelligence-only and never promoted
+into the qualified list regardless of trigger strength — that restriction
+no longer applies.
+
+## 2b. Target-audience filter (added 2026-08-23)
+
+Passing the city-HQ gate is necessary but not sufficient. A company must
+also pass the brand-fit screen in `config/target-criteria.yaml` before
+it's worth researching at all: any B2B brand qualifies regardless of
+ticket size; a B2C brand qualifies only if its typical purchase is a
+considered, higher-ticket decision (e.g. premium mattresses/furniture,
+luxury automotive) rather than routine/daily consumption (FMCG, budget
+consumer goods) — ordinary mass-market B2C brands are excluded even when
+well-known or Bangalore-adjacent. This is a judgment call to make and
+record explicitly during research, not a scorer.py dimension.
 
 ## 4-13. Intelligence engines
 
@@ -43,6 +66,19 @@ product-launch-intelligence, marketing-intelligence,
 expansion-intelligence, revenue-intelligence (financial events),
 leadership-intelligence, competitor-intelligence (incl. competitor
 leakage in Section 13).
+
+## 13b. Editorial-article scanning (added 2026-08-23)
+
+In addition to press-release/funding/DRHP-style discovery, each of the 8
+publishers in `config/publishers.yaml` (Economic Times, Times of India,
+Moneycontrol, Mint, CNBC-TV18, Financial Express, BusinessLine, Deccan
+Herald) should also be scanned for **editorial/opinion coverage** that
+mentions a qualified-city brand -- not just their own advertising. This
+surfaces brands getting organic editorial attention (a different signal
+than a funding/IPO trigger) that may still be worth a pitch. Apply the
+city-HQ gate and target-audience filter (Sections 2/2b) to anything found
+this way before treating it as an opportunity -- editorial mentions do not
+bypass either screen.
 
 ## 14-16. Opportunity trigger engine, timing, scoring
 
@@ -74,8 +110,14 @@ OPPORTUNITY and scored with a bonus (`config/scoring.yaml`).
 `.claude/skills/prospect-research/SKILL.md` finds the right title;
 `.claude/skills/contact-verification/SKILL.md` finds an official
 (company-domain) email or shows a professional phone — never a personal
-email, never auto-contact. No ContactOut/enrichment API is connected in
-this environment; research is public-web/LinkedIn based.
+email, never auto-contact. No ContactOut connector exists in this
+environment (checked 2026-08-23; it isn't in the connector registry at
+all). Contact enrichment (phone/email) is done via the **Lusha** connector
+once connected/enabled, falling back to public-web/LinkedIn research when
+it isn't. Daily leads (name, designation, phone, email) are compiled into
+the report once Lusha is wired in. Drafting outreach emails happens via
+the **Gmail** connector once connected — draft only, **never send without
+explicit approval**.
 
 ## 23-24. Daily report & Top 5
 

@@ -19,6 +19,13 @@ publishers:
   - name: "Deccan Herald"
     domain: "deccanherald.com"
 
+editorial_scan: >
+  As of 2026-08-23, each publisher above is also scanned for editorial/
+  opinion coverage mentioning a qualified-city brand (config/cities.yaml),
+  not just paid competitor placements -- see docs/master-spec.md Section
+  13b. Apply the city-HQ gate and config/target-criteria.yaml filter to
+  anything found this way before treating it as an opportunity.
+
 campaign_types:
   - display
   - roadblock
