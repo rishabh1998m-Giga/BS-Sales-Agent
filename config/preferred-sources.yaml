@@ -1,0 +1,18 @@
+# Preferred/primary sources per research area (added 2026-08-23, per
+# explicit instruction). Check these FIRST -- they're purpose-built and
+# typically faster and more authoritative than waiting for general news
+# coverage of the same event.
+
+ipo:
+  primary: "Chittorgarh.com"
+  urls:
+    - "https://www.chittorgarh.com/report/upcoming-ipos-drhp-filed/158/all/"
+    - "https://www.chittorgarh.com/ipo/ipo_dashboard.asp"
+  note: >
+    India's leading IPO-specific tracker -- DRHP-filed list, live
+    subscription/bidding data, mainboard + SME dashboards. It does NOT
+    verify company HQ city itself -- still independently verify HQ (CIN/
+    registered office) before treating a listed IPO as a qualified
+    opportunity, per the city-HQ gate.
+
+state_events: "See config/state-events.yaml for named summits and brand-hosted-event research guidance."
