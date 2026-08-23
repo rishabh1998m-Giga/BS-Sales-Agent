@@ -1,0 +1,40 @@
+# Competitor publishers monitored by competitor-intelligence (Section 12-13).
+# Add/remove publishers here without touching skill logic.
+
+publishers:
+  - name: "Economic Times"
+    domain: "economictimes.indiatimes.com"
+  - name: "Times of India"
+    domain: "timesofindia.indiatimes.com"
+  - name: "Moneycontrol"
+    domain: "moneycontrol.com"
+  - name: "Mint"
+    domain: "livemint.com"
+  - name: "CNBC-TV18"
+    domain: "cnbctv18.com"
+  - name: "Financial Express"
+    domain: "financialexpress.com"
+  - name: "BusinessLine"
+    domain: "thehindubusinessline.com"
+  - name: "Deccan Herald"
+    domain: "deccanherald.com"
+
+campaign_types:
+  - display
+  - roadblock
+  - sponsored_content
+  - branded_content
+  - homepage_campaign
+  - product_campaign
+  - corporate_campaign
+  - recruitment_campaign
+  - financial_campaign
+  - event_campaign
+  - launch_campaign
+
+own_publisher:
+  name: "Business Standard"
+  domain: "business-standard.com"
+  note: >
+    Used to check whether a company already has known Business Standard
+    activity, for the competitor-leakage calculation in Section 13.
