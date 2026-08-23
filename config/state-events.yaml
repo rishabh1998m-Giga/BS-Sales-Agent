@@ -1,0 +1,56 @@
+# Named state investment/business summits to actively track (added
+# 2026-08-23, per explicit instruction). Separate from the generic macro
+# calendar windows in config/calendar-triggers.yaml, because these are
+# actual scheduled conferences with real attendee/MoU lists to check, not
+# a season. VERIFY current-year dates each time rather than trusting a
+# hardcoded value here -- schedules, venues, and even annual/biennial
+# cadence can change year to year; the values below are what was confirmed
+# as of 2026-08-23, not a permanent fixture.
+
+karnataka:
+  name: "Invest Karnataka / Global Investors Meet (GIM)"
+  cadence: "Biennial -- last held Feb 12-14, 2025. Next edition NOT YET officially announced as of 2026-08-23."
+  official_source: "https://investkarnataka.co.in/"
+  what_to_look_for: >
+    Confirm the next edition's official dates before relying on this entry.
+    When dates are known, check for Bangalore-HQ companies participating,
+    sponsoring, signing MoUs, or hosting a pavilion -- each is an EVENT/
+    SPONSORSHIP trigger candidate (config/opportunity-triggers.yaml).
+
+tamil_nadu:
+  name: "Vetri Tamil Nadu Global Investors Meet / Investors' Conclave"
+  cadence: "2026 edition held Aug 13, 2026 -- confirm whether/when it recurs for future years."
+  what_to_look_for: >
+    Chennai-HQ (or India-HQ-in-Chennai) companies signing MoUs or
+    participating. This is exactly how Skyroot Aerospace's Rs 250 Cr
+    Tamil Nadu facility MoU was found (2026-08-23 pass) -- treat state
+    investment-conclave MoU announcements as a standing research target,
+    not a one-off find.
+
+telangana:
+  name: "Telangana Rising Global Summit (2026 theme: 'Invest Telangana')"
+  cadence: "Annual -- institutionalised as Telangana's flagship investment event. 2026 edition: Dec 7-9, 2026, Bharat Future City, Hyderabad."
+  what_to_look_for: >
+    Hyderabad-HQ companies participating, sponsoring, signing MoUs, or
+    hosting a session/pavilion -- same treatment as the Tamil Nadu entry.
+
+brand_hosted_events: >
+  SEPARATE from the state summits above: actively research whether any
+  already-tracked or newly-found qualified-city company has an upcoming
+  flagship event of its OWN (an anniversary celebration, a community/
+  showcase day, a flagship annual conference) -- e.g. Ather Energy's
+  Community Day (used to launch the EL01, found 2026-08-23), or a
+  hypothetical "Bosch India Day" / product-anniversary event / company
+  conference. These map to the EVENT trigger type (conference_hosted,
+  flagship_event in config/opportunity-triggers.yaml) with
+  default_bs_products including event_promotion -- BS can pitch banner/
+  roadblock coverage tied to the event itself. This was previously found
+  only incidentally (while researching a product launch); it should now
+  be a standing, deliberate research question each pass: "does any
+  qualified-city company have an event coming up in the next 90 days?"
+
+note: >
+  Every company surfaced via a state event or a brand-hosted event still
+  goes through the full city-HQ gate (config/cities.yaml) and brand-fit
+  filter (config/target-criteria.yaml) before counting as a qualified
+  opportunity -- attending or hosting an event does not bypass either.

@@ -30,8 +30,14 @@ triggers:
     source_events: [strategic_partnership, jv_announced, government_contract, major_tender]
     default_bs_products: [branded_content, corporate_communication]
   EVENT:
-    source_events: [conference_hosted, flagship_event]
+    source_events: [conference_hosted, flagship_event, state_investment_summit_participation]
     default_bs_products: [event_promotion, display, newsletter, content]
+    note: >
+      Actively research this, don't wait for it to surface incidentally --
+      see config/state-events.yaml for named state summits (Invest
+      Karnataka, Tamil Nadu Investors Conclave, Telangana Rising) and
+      brand-hosted-event research guidance (a company's own anniversary/
+      community day/flagship conference).
   SPONSORSHIP:
     source_events: [event_sponsorship, property_sponsorship]
     default_bs_products: [event_promotion, display, content]

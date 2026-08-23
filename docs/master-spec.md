@@ -182,6 +182,22 @@ evidence supports.
   recorded, log a new `leadership_changes` row rather than pitching a
   stale contact.
 
+## 13b2. Preferred sources and state/brand events (added 2026-08-23)
+
+`config/preferred-sources.yaml` names Chittorgarh.com as the primary IPO
+tracker -- check it before a generic news search for anything IPO-related
+(DRHP filings, dashboards, live subscription data); it doesn't verify HQ
+city itself, so the city-HQ gate still applies independently.
+
+`config/state-events.yaml` names specific state investment summits to
+actively track (Invest Karnataka/GIM, Tamil Nadu's Investors Conclave,
+Telangana Rising) for qualified-city companies participating, sponsoring,
+or signing MoUs -- this is how Skyroot Aerospace's Tamil Nadu facility
+investment was found. It also directs a standing (not incidental) research
+question every pass: does any qualified-city company have its OWN upcoming
+flagship event (anniversary, community day, conference) worth an
+EVENT-trigger pitch for banner/roadblock coverage?
+
 ## 13c. Industry movement digest (Section 16, added 2026-08-23)
 
 Separate from the Section 9-10 ad-placement/ROS-roadblock competitor list
