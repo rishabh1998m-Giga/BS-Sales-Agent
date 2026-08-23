@@ -5,6 +5,7 @@ Deduplicates companies by name (case-insensitive) and gives agents/skills a
 single place to insert intelligence records instead of hand-writing SQL
 everywhere. Deliberately dependency-free (stdlib sqlite3 only).
 """
+import datetime as dt
 import json
 import sqlite3
 from pathlib import Path
@@ -110,6 +111,93 @@ def insert_opportunity(conn: sqlite3.Connection, company_id: int, **fields) -> i
     )
     conn.commit()
     return cur.lastrowid
+
+
+def add_key_date(
+    conn: sqlite3.Connection,
+    company_id: int,
+    date_type: str,
+    month_day: str,
+    label: Optional[str] = None,
+    source_url: Optional[str] = None,
+    evidence: Optional[str] = None,
+    confidence: Optional[str] = None,
+) -> int:
+    """month_day must be 'MM-DD' -- validated here so a bad value fails loudly
+    at insert time rather than silently breaking the calendar-window check."""
+    dt.datetime.strptime(month_day, "%m-%d")  # raises ValueError if malformed
+    cur = conn.execute(
+        """INSERT INTO company_key_dates
+           (company_id, date_type, month_day, label, source_url, evidence, confidence)
+           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        (company_id, date_type, month_day, label, source_url, evidence, confidence),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def upcoming_key_dates(conn: sqlite3.Connection, window_days: int = 45, today: Optional[dt.date] = None):
+    """
+    Company-specific recurring dates (company_key_dates) falling within the
+    next `window_days` of `today`, wrapping correctly across a year boundary
+    (e.g. today=Dec 20, window=45 must still catch Jan 15).
+    """
+    today = today or dt.date.today()
+    rows = conn.execute(
+        """SELECT k.*, c.name AS company_name FROM company_key_dates k
+           JOIN companies c ON c.company_id = k.company_id
+           ORDER BY k.month_day"""
+    ).fetchall()
+    matches = []
+    for row in rows:
+        month, day = (int(x) for x in row["month_day"].split("-"))
+        this_year = dt.date(today.year, month, day)
+        next_year = dt.date(today.year + 1, month, day)
+        candidate = this_year if this_year >= today else next_year
+        days_away = (candidate - today).days
+        if 0 <= days_away <= window_days:
+            matches.append({**dict(row), "days_away": days_away, "next_occurrence": candidate.isoformat()})
+    return sorted(matches, key=lambda r: r["days_away"])
+
+
+def add_risk_flag(
+    conn: sqlite3.Connection,
+    company_id: int,
+    risk_type: str,
+    description: Optional[str] = None,
+    severity: Optional[str] = None,
+    source_url: Optional[str] = None,
+    evidence: Optional[str] = None,
+) -> int:
+    cur = conn.execute(
+        """INSERT INTO risk_flags (company_id, risk_type, description, severity, source_url, evidence)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (company_id, risk_type, description, severity, source_url, evidence),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def active_risk_flags(conn: sqlite3.Connection):
+    return conn.execute(
+        """SELECT r.*, c.name AS company_name FROM risk_flags r
+           JOIN companies c ON c.company_id = r.company_id
+           WHERE r.is_active = 1
+           ORDER BY CASE r.severity WHEN 'HIGH' THEN 0 WHEN 'MEDIUM' THEN 1 ELSE 2 END, r.flagged_at DESC"""
+    ).fetchall()
+
+
+def all_tracked_contacts(conn: sqlite3.Connection):
+    """
+    Every contact on file, most recent per company first -- for cross-
+    checking against fresh research to catch decision-maker movement
+    (promoted, left the company, replaced) before pitching the wrong person.
+    """
+    return conn.execute(
+        """SELECT c.name AS company_name, ct.contact_id, ct.name, ct.title, ct.created_at
+           FROM contacts ct JOIN companies c ON c.company_id = ct.company_id
+           ORDER BY c.name, ct.created_at DESC"""
+    ).fetchall()
 
 
 def top_opportunities(conn: sqlite3.Connection, qualified_only: bool = True, limit: int = 10):

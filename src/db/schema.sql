@@ -225,7 +225,9 @@ CREATE TABLE IF NOT EXISTS opportunities (
     recommended_action TEXT,
     is_qualified_target INTEGER DEFAULT 0,         -- city-HQ hard gate result, 0/1
     scored_at       TEXT DEFAULT (datetime('now')),
-    score_breakdown TEXT                            -- JSON string of weighted sub-scores
+    score_breakdown TEXT,                           -- JSON string of weighted sub-scores
+    pitch_draft     TEXT,                           -- assembled pitch text (Section 14), WARM+ only
+    objection_notes TEXT                            -- anticipated pushback + response, WARM+ only
 );
 CREATE INDEX IF NOT EXISTS idx_opps_company ON opportunities(company_id);
 CREATE INDEX IF NOT EXISTS idx_opps_score ON opportunities(score DESC);
@@ -263,6 +265,41 @@ CREATE TABLE IF NOT EXISTS followups (
     is_done         INTEGER DEFAULT 0,
     created_at      TEXT DEFAULT (datetime('now'))
 );
+
+-- --------------------------------------------------------------- company_key_dates
+-- Recurring annual dates specific to a company (founding anniversary, a past
+-- landmark product launch, a notable funding-round anniversary, etc.) that
+-- are natural occasions for that company to want visibility -- Section 15.
+CREATE TABLE IF NOT EXISTS company_key_dates (
+    key_date_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    company_id      INTEGER NOT NULL REFERENCES companies(company_id),
+    date_type       TEXT NOT NULL,                 -- founding_anniversary/product_anniversary/funding_anniversary/other
+    month_day       TEXT NOT NULL,                 -- 'MM-DD', recurring every year
+    label           TEXT,                          -- e.g. "10th anniversary of Ather 450 launch"
+    source_url      TEXT,
+    evidence        TEXT,
+    confidence      TEXT CHECK (confidence IN ('HIGH','MEDIUM','LOW')),
+    created_at      TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_key_dates_company ON company_key_dates(company_id);
+
+-- -------------------------------------------------------------------- risk_flags
+-- Signals that a deal in progress might stall (Section 16) -- funding
+-- freeze, leadership departure with no replacement, layoffs, negative press,
+-- regulatory trouble. Separate from opportunity_triggers (which are reasons
+-- TO pitch); this is reasons a pitch might currently be a bad use of time.
+CREATE TABLE IF NOT EXISTS risk_flags (
+    risk_id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    company_id      INTEGER NOT NULL REFERENCES companies(company_id),
+    risk_type       TEXT NOT NULL,                 -- funding_freeze/leadership_departure/layoffs/negative_press/regulatory/other
+    description     TEXT,
+    severity        TEXT CHECK (severity IN ('HIGH','MEDIUM','LOW')),
+    source_url      TEXT,
+    evidence        TEXT,
+    is_active       INTEGER DEFAULT 1,
+    flagged_at      TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_risk_flags_company ON risk_flags(company_id);
 
 -- ---------------------------------------------------------------------- daily_reports
 CREATE TABLE IF NOT EXISTS daily_reports (
