@@ -165,6 +165,20 @@ evidence supports.
   recorded, log a new `leadership_changes` row rather than pitching a
   stale contact.
 
+## 13c. Industry movement digest (Section 17, added 2026-08-23)
+
+Separate from the Section 9-10 ad-placement/ROS-roadblock competitor list
+(config/publishers.yaml, now 5 publishers -- CNBC-TV18, BusinessLine, and
+Deccan Herald were removed from ad-research coverage). A different pair of
+trade-press sources, config/industry-movement-sources.yaml (Exchange4Media,
+afaqs!), feeds a short 2-3 line daily digest of agency/brand movement: an
+agency winning a mandate, an executive joining an agency/brand as CMO,
+a new agency-brand association. Every item must be Bangalore/Chennai/
+Hyderabad relevant with a stated reason -- generic industry news from
+these sources does not qualify just because the source is being checked.
+Stored in the `industry_movements` table via
+`src/db/repo.py::add_industry_movement()`.
+
 ## 14f. Weekly rollup
 
 `src/reports/generate_weekly_report.py` reads (never re-researches) the

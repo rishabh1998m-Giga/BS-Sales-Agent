@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from db.init_db import init_db  # noqa: E402
 from db.repo import (  # noqa: E402
     connect, get_or_create_company, add_key_date, upcoming_key_dates,
-    add_risk_flag, active_risk_flags,
+    add_risk_flag, active_risk_flags, add_industry_movement, recent_industry_movements,
 )
 from pitch.generate_pitch import build_pitch  # noqa: E402
 
@@ -72,6 +72,18 @@ def test_pitch_never_includes_a_price_and_flags_sales_ops():
     assert "CONFIRM WITH SALES OPS" in result["pitch_draft"]
     assert "$" not in result["pitch_draft"]
     assert "Rs " not in result["pitch_draft"] and "₹" not in result["pitch_draft"]
+
+
+def test_industry_movement_roundtrip():
+    conn = _fresh_conn()
+    add_industry_movement(
+        conn, source="afaqs!", movement_type="agency_mandate_win",
+        headline="Agency X wins Y's mandate", summary="Two-line summary.",
+        city_relevance="Bangalore -- brand HQ verified",
+    )
+    rows = recent_industry_movements(conn, days=3)
+    assert len(rows) == 1
+    assert rows[0]["source"] == "afaqs!"
 
 
 if __name__ == "__main__":

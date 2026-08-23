@@ -20,7 +20,9 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from db.repo import connect, top_opportunities, upcoming_key_dates, active_risk_flags  # noqa: E402
+from db.repo import (  # noqa: E402
+    connect, top_opportunities, upcoming_key_dates, active_risk_flags, recent_industry_movements,
+)
 from pitch.generate_pitch import build_pitch, _load_product_labels  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -260,6 +262,16 @@ def build_report(conn, report_date: str) -> str:
             lines.append(f"- **{r['company_name']}** — {r['risk_type']} ({r['severity']}): {r['description']}")
     else:
         lines.append("_None flagged._")
+
+    lines.append(section("17. INDUSTRY MOVEMENT (Exchange4Media / afaqs! -- Bangalore/Chennai/Hyderabad only)"))
+    movements = recent_industry_movements(conn, days=3)
+    if movements:
+        for m in movements:
+            lines.append(f"- **{m['headline']}** ({m['source']}, {m['city_relevance']})")
+            if m["summary"]:
+                lines.append(f"  {m['summary']}")
+    else:
+        lines.append("_None found this pass. Separate from Sections 9-10 -- see config/industry-movement-sources.yaml._")
 
     return "\n".join(lines)
 

@@ -200,6 +200,35 @@ def all_tracked_contacts(conn: sqlite3.Connection):
     ).fetchall()
 
 
+def add_industry_movement(
+    conn: sqlite3.Connection,
+    source: str,
+    movement_type: str,
+    headline: str,
+    summary: Optional[str] = None,
+    city_relevance: Optional[str] = None,
+    source_url: Optional[str] = None,
+    date_observed: Optional[str] = None,
+) -> int:
+    cur = conn.execute(
+        """INSERT INTO industry_movements
+           (source, movement_type, headline, summary, city_relevance, source_url, date_observed)
+           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        (source, movement_type, headline, summary, city_relevance, source_url, date_observed),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def recent_industry_movements(conn: sqlite3.Connection, days: int = 3):
+    return conn.execute(
+        """SELECT * FROM industry_movements
+           WHERE julianday('now') - julianday(created_at) <= ?
+           ORDER BY created_at DESC""",
+        (days,),
+    ).fetchall()
+
+
 def top_opportunities(conn: sqlite3.Connection, qualified_only: bool = True, limit: int = 10):
     """
     One row per company: its most recently scored opportunity. Without this,
