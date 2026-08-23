@@ -1,0 +1,54 @@
+# Business Standard product mapping (Section 18). Configurable — no invented
+# inventory or pricing here. Update product names/descriptions to match
+# actual BS ad-sales inventory before pitching a client.
+
+products:
+  premium_display:
+    label: "Premium Display"
+    description: "High-viewability display placements on business-standard.com"
+  roadblock:
+    label: "Roadblock"
+    description: "Full takeover of a page/section for a defined period"
+  homepage_takeover:
+    label: "Homepage Takeover"
+    description: "Homepage-level display dominance"
+  branded_content:
+    label: "Branded Content"
+    description: "Sponsored editorial-style content produced with the brand"
+  corporate_communication:
+    label: "Corporate Communication Package"
+    description: "Coverage/placement suited to investor & business-decision-maker audiences"
+  thought_leadership:
+    label: "Thought Leadership Content"
+    description: "Bylines, interviews, opinion placements positioning leadership as experts"
+  newsletter:
+    label: "Newsletter Placement"
+    description: "Sponsored slot in a relevant BS newsletter vertical"
+  event_promotion:
+    label: "Event Promotion Package"
+    description: "Pre/during/post coverage and promotion of a client event or sponsorship"
+  digital_display:
+    label: "Digital Display (Employer Branding)"
+    description: "Display targeting relevant professional/business audience for hiring campaigns"
+  investor_visibility_content:
+    label: "Investor Visibility Content"
+    description: "Content aimed at investor and business-audience visibility post-funding"
+  corporate_storytelling:
+    label: "Corporate Storytelling"
+    description: "Long-form narrative content around a company milestone or result"
+  competitor_leakage_pitch:
+    label: "Competitor Leakage Win-Back Pitch"
+    description: "Introductory pitch aimed at a company currently advertising with competitors"
+  introductory_pitch:
+    label: "Introductory Pitch"
+    description: "Light-touch first outreach, e.g. congratulating a newly appointed CMO"
+  business_audience_display:
+    label: "Business Audience Display"
+    description: "Display targeted at BS's B2B/decision-maker reader segment"
+
+trigger_to_product_map: "See config/opportunity-triggers.yaml -> default_bs_products for each trigger"
+
+pitch_rules:
+  - "Never invent specific inventory names, ad slots, or pricing not listed above."
+  - "Never quote rates; flag 'PRICING: CONFIRM WITH SALES OPS' instead."
+  - "Always tie the recommended product back to the specific trigger and business problem."

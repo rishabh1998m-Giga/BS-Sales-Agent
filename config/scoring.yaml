@@ -1,0 +1,43 @@
+# Opportunity scoring weights (0-100 total) — Section 16 of master spec.
+# Edit weights here; scoring.py reads this file, do not hardcode weights in code.
+
+weights:
+  business_event_strength: 20
+  advertising_marketing_signal: 20
+  timing_urgency: 15
+  business_standard_audience_fit: 15
+  estimated_marketing_capacity: 10
+  decision_maker_availability: 10
+  official_contact_availability: 5
+  strategic_relevance: 5
+# sum must equal 100 — validated by src/scoring/scorer.py on load
+
+bands:
+  HOT: [80, 100]
+  WARM: [60, 79]
+  WATCH: [40, 59]
+  LOW: [0, 39]
+
+timing_classification:
+  IMMEDIATE: "0-7 days"
+  NEAR_TERM: "8-30 days"
+  MEDIUM_TERM: "31-90 days"
+  WATCH: "90+ days"
+
+bangalore_hq_gate:
+  enabled: true
+  rule: >
+    A company with hq_status != BANGALORE_HQ_VERIFIED can be scored and
+    stored (for market intelligence / multi-city tracking) but MUST be
+    excluded from the qualified Bangalore opportunity list and from the
+    daily Top 5, regardless of score.
+
+multi_trigger_bonus:
+  enabled: true
+  description: >
+    When a company has >=3 independent open triggers (see
+    opportunity-triggers.yaml) within a rolling 90-day window, add a bonus
+    on top of the weighted score.
+  bonus_per_extra_trigger: 5
+  max_bonus: 20
+  cap_at: 100
