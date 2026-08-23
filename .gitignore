@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+
+# One-off format conversions of already-committed reports (e.g. a .docx made
+# on request from a committed .md) -- not pipeline output, no diff value.
+data/*.docx

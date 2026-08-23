@@ -20,7 +20,10 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from db.repo import connect, top_opportunities, upcoming_key_dates, active_risk_flags  # noqa: E402
+from db.repo import (  # noqa: E402
+    connect, todays_opportunities, upcoming_key_dates, active_risk_flags,
+    recent_industry_movements,
+)
 from pitch.generate_pitch import build_pitch, _load_product_labels  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -89,108 +92,106 @@ def build_report(conn, report_date: str) -> str:
     lines.append(f"{report_date}")
     lines.append("================================")
 
-    top10 = top_opportunities(conn, qualified_only=True, limit=10)
-    lines.append(section("1. TOP 10 NEW SALES OPPORTUNITIES"))
-    if top10:
-        for r in top10:
+    # Everything through Section 11 is scoped to TODAY only (report_date) --
+    # a company/event already reported on an earlier day and unchanged since
+    # is correctly absent here rather than repeated. Persistent/all-time
+    # views (full pipeline, weekly health) live in generate_weekly_report.py
+    # via top_opportunities(), not here.
+    today_opps = todays_opportunities(conn, report_date, qualified_only=True, limit=10)
+    lines.append(section("1. TODAY'S NEW OR UPDATED SALES OPPORTUNITIES"))
+    if today_opps:
+        for r in today_opps:
             lines.append(fmt_opportunity_line(r))
     else:
-        lines.append("_No scored opportunities in the database yet. Run the daily-sales-brief skill._")
+        lines.append("_Nothing new or rescored today -- see the weekly rollup for the full standing pipeline._")
 
-    lines.append(section("2. QUALIFIED-MARKET (BANGALORE/CHENNAI/HYDERABAD) COMPANIES WITH NEW BUSINESS TRIGGERS"))
+    lines.append(section("2. QUALIFIED-MARKET (BANGALORE/CHENNAI/HYDERABAD) COMPANIES WITH NEW BUSINESS TRIGGERS TODAY"))
     rows = conn.execute(
         """SELECT DISTINCT c.name, t.trigger_type FROM opportunity_triggers t
            JOIN companies c ON c.company_id = t.company_id
            JOIN company_hq h ON h.company_id = c.company_id
            WHERE h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')
-             AND t.is_open = 1
-           ORDER BY t.opened_at DESC LIMIT 20"""
+             AND t.is_open = 1 AND date(t.opened_at) = date(?)
+           ORDER BY t.opened_at DESC LIMIT 20""",
+        (report_date,),
     ).fetchall()
     for r in rows:
         lines.append(f"- {r['name']} — {r['trigger_type']}")
     if not rows:
-        lines.append("_None yet._")
+        lines.append("_None today._")
 
     for title, table, cols in [
-        ("3. IPO OPPORTUNITIES", "ipo_events", "ipo_status, stage, expected_timeline"),
-        ("4. FUNDRAISING OPPORTUNITIES", "funding_events", "stage, amount, date_announced"),
-        ("5. PRODUCT LAUNCHES", "product_launches", "product_name, launch_date"),
-        ("6. NEW MARKETING INITIATIVES", "marketing_initiatives", "campaign_name, objective"),
-        ("7. EXPANSION OPPORTUNITIES", "expansion_events", "expansion_type, location"),
+        ("3. IPO OPPORTUNITIES (NEW TODAY)", "ipo_events", "ipo_status, stage, expected_timeline"),
+        ("4. FUNDRAISING OPPORTUNITIES (NEW TODAY)", "funding_events", "stage, amount, date_announced"),
+        ("5. PRODUCT LAUNCHES (NEW TODAY)", "product_launches", "product_name, launch_date"),
+        ("6. NEW MARKETING INITIATIVES (NEW TODAY)", "marketing_initiatives", "campaign_name, objective"),
+        ("7. EXPANSION OPPORTUNITIES (NEW TODAY)", "expansion_events", "expansion_type, location"),
     ]:
         lines.append(section(title))
         rows = conn.execute(
             f"""SELECT c.name, {table}.* FROM {table}
                 JOIN companies c ON c.company_id = {table}.company_id
-                ORDER BY {table}.created_at DESC LIMIT 15"""
+                WHERE date({table}.created_at) = date(?)
+                ORDER BY {table}.created_at DESC LIMIT 15""",
+            (report_date,),
         ).fetchall()
         if rows:
             for r in rows:
                 detail = ", ".join(f"{k}={r[k]}" for k in cols.split(", ") if r[k])
                 lines.append(f"- {r['name']} — {detail}")
         else:
-            lines.append("_None yet._")
+            lines.append("_None today._")
 
-    lines.append(section("8. NEW MARKETING LEADERS"))
+    lines.append(section("8. NEW MARKETING LEADERS (NEW TODAY)"))
     rows = conn.execute(
         """SELECT c.name, l.person_name, l.title, l.appointment_date FROM leadership_changes l
-           JOIN companies c ON c.company_id = l.company_id ORDER BY l.created_at DESC LIMIT 15"""
+           JOIN companies c ON c.company_id = l.company_id
+           WHERE date(l.created_at) = date(?)
+           ORDER BY l.created_at DESC LIMIT 15""",
+        (report_date,),
     ).fetchall()
     for r in rows:
         lines.append(f"- {r['name']} — {r['person_name']} ({r['title']}), {r['appointment_date']}")
     if not rows:
-        lines.append("_None yet._")
+        lines.append("_None today._")
 
-    lines.append(section("9. COMPETITOR ADVERTISING"))
+    lines.append(section("9. COMPETITOR ADVERTISING (NEW TODAY)"))
     rows = conn.execute(
         """SELECT c.name, camp.publisher, camp.campaign_type, camp.date_observed FROM campaigns camp
-           JOIN companies c ON c.company_id = camp.company_id ORDER BY camp.created_at DESC LIMIT 15"""
+           JOIN companies c ON c.company_id = camp.company_id
+           WHERE date(camp.created_at) = date(?)
+           ORDER BY camp.created_at DESC LIMIT 15""",
+        (report_date,),
     ).fetchall()
     for r in rows:
         lines.append(f"- {r['name']} on {r['publisher']} ({r['campaign_type']}), {r['date_observed']}")
     if not rows:
-        lines.append("_None yet._")
+        lines.append("_None today._")
 
-    lines.append(section("10. COMPETITOR LEAKAGE"))
+    lines.append(section("10. COMPETITOR LEAKAGE (NEW TODAY)"))
     rows = conn.execute(
         """SELECT c.name FROM competitor_activity ca
            JOIN companies c ON c.company_id = ca.company_id
            JOIN company_hq h ON h.company_id = c.company_id
-           WHERE ca.leakage_flag = 1
-             AND h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')"""
+           WHERE ca.leakage_flag = 1 AND date(ca.created_at) = date(?)
+             AND h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')""",
+        (report_date,),
     ).fetchall()
     for r in rows:
         lines.append(f"- {r['name']} — spending with competitors, no known BS activity")
     if not rows:
-        lines.append("_None yet._")
+        lines.append("_None today._")
 
-    lines.append(section("11. MULTI-TRIGGER OPPORTUNITIES"))
-    rows = conn.execute(
-        """SELECT c.name, o.trigger_count, o.score FROM opportunities o
-           JOIN companies c ON c.company_id = o.company_id
-           WHERE o.trigger_count >= 3 AND o.is_qualified_target = 1
-           ORDER BY o.score DESC"""
-    ).fetchall()
-    for r in rows:
-        lines.append(f"- {r['name']} — {r['trigger_count']} open triggers, score {r['score']}")
-    if not rows:
-        lines.append("_None yet._")
+    lines.append(section("11. MULTI-TRIGGER OPPORTUNITIES (NEWLY SCORED TODAY)"))
+    multi = [r for r in today_opps if r["trigger_count"] >= 3]
+    if multi:
+        for r in multi:
+            lines.append(f"- {r['company_name']} — {r['trigger_count']} open triggers, score {r['score']}")
+    else:
+        lines.append("_None today._")
 
-    lines.append(section("12. FOLLOW-UPS DUE"))
-    rows = conn.execute(
-        """SELECT c.name, f.due_date, f.note FROM followups f
-           JOIN opportunities o ON o.opportunity_id = f.opportunity_id
-           JOIN companies c ON c.company_id = o.company_id
-           WHERE f.is_done = 0 AND date(f.due_date) <= date('now')
-           ORDER BY f.due_date"""
-    ).fetchall()
-    for r in rows:
-        lines.append(f"- {r['name']} — due {r['due_date']}: {r['note']}")
-    if not rows:
-        lines.append("_None due._")
-
-    lines.append(section("13. TODAY'S TOP 5 ACTIONS"))
-    top5 = top_opportunities(conn, qualified_only=True, limit=5)
+    lines.append(section("12. TODAY'S TOP 5 ACTIONS"))
+    top5 = sorted(today_opps, key=lambda r: r["score"], reverse=True)[:5]
     if top5:
         for i, r in enumerate(top5, 1):
             lines.append(
@@ -198,11 +199,10 @@ def build_report(conn, report_date: str) -> str:
                 f"{r['recommended_action'] or 'See opportunity record for recommended action.'}"
             )
     else:
-        lines.append("_No qualified opportunities scored yet._")
+        lines.append("_Nothing new today to act on -- check the weekly rollup for standing follow-ups._")
 
-    lines.append(section("14. TODAY'S PITCHES"))
-    warm_plus = [r for r in top_opportunities(conn, qualified_only=True, limit=10)
-                 if r["classification"] in ("HOT", "WARM")]
+    lines.append(section("13. TODAY'S PITCHES"))
+    warm_plus = [r for r in today_opps if r["classification"] in ("HOT", "WARM")]
     if warm_plus:
         labels = _load_product_labels()
         for r in warm_plus:
@@ -232,11 +232,11 @@ def build_report(conn, report_date: str) -> str:
     else:
         lines.append("_No WARM-or-better opportunities to pitch today._")
 
-    lines.append(section("15. CALENDAR-DRIVEN OPPORTUNITIES"))
-    key_dates = upcoming_key_dates(conn, window_days=45)
+    lines.append(section("14. CALENDAR-DRIVEN OPPORTUNITIES (NEXT 90 DAYS)"))
+    key_dates = upcoming_key_dates(conn, window_days=90)
     macro = _fixed_macro_windows(dt.date.today())
     if key_dates:
-        lines.append("**Company-specific dates:**")
+        lines.append("**Company-specific dates -- plan inventory/roadblocks ahead of these:**")
         for k in key_dates:
             lines.append(
                 f"- {k['company_name']} — {k['label'] or k['date_type']} on {k['next_occurrence']} "
@@ -247,19 +247,29 @@ def build_report(conn, report_date: str) -> str:
         for m in macro:
             lines.append(f"- {m['name']} — {m['status']} ({m['window_start']} to {m['window_end']})")
     if not key_dates and not macro:
-        lines.append("_None in the next 45 days._")
+        lines.append("_None in the next 90 days._")
     lines.append(
         "\n_Note: festive-season (Navratri-Diwali) dates shift yearly and are not computed "
         "mechanically here -- confirmed during research when in range, per config/calendar-triggers.yaml._"
     )
 
-    lines.append(section("16. RISK FLAGS"))
+    lines.append(section("15. RISK FLAGS"))
     risks = active_risk_flags(conn)
     if risks:
         for r in risks:
             lines.append(f"- **{r['company_name']}** — {r['risk_type']} ({r['severity']}): {r['description']}")
     else:
         lines.append("_None flagged._")
+
+    lines.append(section("16. INDUSTRY MOVEMENT (Exchange4Media / afaqs! -- Bangalore/Chennai/Hyderabad only)"))
+    movements = recent_industry_movements(conn, days=3)
+    if movements:
+        for m in movements:
+            lines.append(f"- **{m['headline']}** ({m['source']}, {m['city_relevance']})")
+            if m["summary"]:
+                lines.append(f"  {m['summary']}")
+    else:
+        lines.append("_None found this pass. Separate from Sections 9-10 -- see config/industry-movement-sources.yaml._")
 
     return "\n".join(lines)
 
@@ -272,7 +282,7 @@ def main():
     conn = connect()
     report_md = build_report(conn, args.date)
 
-    top5 = [dict(r) for r in top_opportunities(conn, qualified_only=True, limit=5)]
+    top5 = [dict(r) for r in todays_opportunities(conn, args.date, qualified_only=True, limit=5)]
     conn.execute(
         """INSERT INTO daily_reports (report_date, top5_json, full_report_md)
            VALUES (?, ?, ?)

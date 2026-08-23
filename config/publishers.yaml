@@ -1,5 +1,8 @@
 # Competitor publishers monitored by competitor-intelligence (Section 12-13).
 # Add/remove publishers here without touching skill logic.
+#
+# UPDATED 2026-08-23: BusinessLine, Deccan Herald, and CNBC-TV18 removed
+# from ad-research coverage per explicit instruction (was 8, now 5).
 
 publishers:
   - name: "Economic Times"
@@ -10,25 +13,28 @@ publishers:
     domain: "moneycontrol.com"
   - name: "Mint"
     domain: "livemint.com"
-  - name: "CNBC-TV18"
-    domain: "cnbctv18.com"
   - name: "Financial Express"
     domain: "financialexpress.com"
+
+removed_2026_08_23:
+  - name: "CNBC-TV18"
+    domain: "cnbctv18.com"
   - name: "BusinessLine"
     domain: "thehindubusinessline.com"
   - name: "Deccan Herald"
     domain: "deccanherald.com"
 
 editorial_scan: >
-  As of 2026-08-23, each publisher above is also scanned for editorial/
-  opinion coverage mentioning a qualified-city brand (config/cities.yaml),
-  not just paid competitor placements -- see docs/master-spec.md Section
-  13b. Apply the city-HQ gate and config/target-criteria.yaml filter to
-  anything found this way before treating it as an opportunity.
+  Each publisher above is also scanned for editorial/opinion coverage
+  mentioning a qualified-city brand (config/cities.yaml), not just paid
+  competitor placements -- see docs/master-spec.md Section 13b. Apply the
+  city-HQ gate and config/target-criteria.yaml filter to anything found
+  this way before treating it as an opportunity.
 
 campaign_types:
   - display
   - roadblock
+  - ros                     # Run of Site -- shared inventory, multiple brands same day
   - sponsored_content
   - branded_content
   - homepage_campaign

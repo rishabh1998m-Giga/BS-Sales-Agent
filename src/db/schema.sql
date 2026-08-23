@@ -301,6 +301,22 @@ CREATE TABLE IF NOT EXISTS risk_flags (
 );
 CREATE INDEX IF NOT EXISTS idx_risk_flags_company ON risk_flags(company_id);
 
+-- --------------------------------------------------------------- industry_movements
+-- Short agency/brand movement digest (Section 17) from Exchange4Media/afaqs
+-- -- separate purpose from campaigns (ad placements). Added 2026-08-23.
+CREATE TABLE IF NOT EXISTS industry_movements (
+    movement_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    source          TEXT NOT NULL,                 -- 'Exchange4Media' / 'afaqs!'
+    movement_type   TEXT NOT NULL,                 -- agency_mandate_win/executive_move/new_agency_brand_association/other
+    headline        TEXT NOT NULL,
+    summary         TEXT,                          -- 2-3 line digest
+    city_relevance  TEXT,                          -- Bangalore/Chennai/Hyderabad + why
+    source_url      TEXT,
+    date_observed   TEXT,
+    created_at      TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_industry_movements_date ON industry_movements(date_observed DESC);
+
 -- ---------------------------------------------------------------------- daily_reports
 CREATE TABLE IF NOT EXISTS daily_reports (
     report_id       INTEGER PRIMARY KEY AUTOINCREMENT,

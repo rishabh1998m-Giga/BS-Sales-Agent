@@ -1,0 +1,40 @@
+# Industry/agency movement sources (added 2026-08-23) -- Section 17.
+# DELIBERATELY SEPARATE from config/publishers.yaml (the ad-placement/
+# ROS-roadblock competitor list). These two trade-press sources are used
+# for a different, narrower purpose: short digest items about agency-brand
+# movement, not competitor ad placements. Do NOT merge into publishers.yaml.
+
+sources:
+  - name: "Exchange4Media"
+    domain: "exchange4media.com"
+  - name: "afaqs!"
+    domain: "afaqs.com"
+
+purpose: >
+  A short (2-3 line) daily digest of industry movement news: an agency
+  winning a new brand's advertising mandate, an executive joining an
+  agency or brand as marketing head/CMO, or a new agency-brand
+  association being announced. NOT competitor ad-placement tracking --
+  that stays in Section 9-10 via config/publishers.yaml.
+
+scope_rule: >
+  EVERY item must be Bangalore, Chennai, or Hyderabad relevant -- either
+  the BRAND involved is HQ'd in one of these three cities (per
+  config/cities.yaml, including the international-company India-head-
+  office rule), or the AGENCY move specifically concerns that agency's
+  presence/mandate for a qualified-city brand. Generic national/other-city
+  industry news does not qualify for this section even if reported by
+  these two sources -- skip it rather than include it.
+
+movement_types:
+  - agency_mandate_win      # "Agency X wins/retains Y's advertising mandate"
+  - executive_move          # "Person X joins Agency/Brand Y as CMO/marketing head"
+  - new_agency_brand_association
+  - other
+
+note: >
+  This is a lighter-weight scan than the main opportunity pipeline -- it
+  does not need HQ-CIN-level verification, but city relevance still must
+  be stated with a reason, not assumed. If nothing qualifying is found on
+  a given day, report that honestly rather than including an off-scope
+  item to fill space.

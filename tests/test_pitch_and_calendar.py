@@ -10,7 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from db.init_db import init_db  # noqa: E402
 from db.repo import (  # noqa: E402
     connect, get_or_create_company, add_key_date, upcoming_key_dates,
-    add_risk_flag, active_risk_flags,
+    add_risk_flag, active_risk_flags, add_industry_movement, recent_industry_movements,
+    set_hq_status, insert_opportunity, todays_opportunities,
 )
 from pitch.generate_pitch import build_pitch  # noqa: E402
 
@@ -72,6 +73,33 @@ def test_pitch_never_includes_a_price_and_flags_sales_ops():
     assert "CONFIRM WITH SALES OPS" in result["pitch_draft"]
     assert "$" not in result["pitch_draft"]
     assert "Rs " not in result["pitch_draft"] and "₹" not in result["pitch_draft"]
+
+
+def test_industry_movement_roundtrip():
+    conn = _fresh_conn()
+    add_industry_movement(
+        conn, source="afaqs!", movement_type="agency_mandate_win",
+        headline="Agency X wins Y's mandate", summary="Two-line summary.",
+        city_relevance="Bangalore -- brand HQ verified",
+    )
+    rows = recent_industry_movements(conn, days=3)
+    assert len(rows) == 1
+    assert rows[0]["source"] == "afaqs!"
+
+
+def test_todays_opportunities_excludes_older_days():
+    conn = _fresh_conn()
+    cid = get_or_create_company(conn, "OldCo")
+    set_hq_status(conn, cid, "BANGALORE_HQ_VERIFIED")
+    opp_id = insert_opportunity(
+        conn, cid, hq_status="BANGALORE_HQ_VERIFIED", primary_trigger="FUNDRAISING",
+        trigger_count=1, score=70, classification="WARM", timing="IMMEDIATE",
+        is_qualified_target=1,
+    )
+    conn.execute("UPDATE opportunities SET scored_at = '2026-08-21 10:00:00' WHERE opportunity_id = ?", (opp_id,))
+    conn.commit()
+    assert todays_opportunities(conn, "2026-08-23") == []
+    assert len(todays_opportunities(conn, "2026-08-21")) == 1
 
 
 if __name__ == "__main__":
