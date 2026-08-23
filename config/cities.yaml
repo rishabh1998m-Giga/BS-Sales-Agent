@@ -1,32 +1,46 @@
 # Target cities for the Business Standard Sales Intelligence Agent
 #
-# "primary_sales_territory" companies feed the qualified Bangalore opportunity
-# list. Everything else is market intelligence only — NEVER auto-promoted into
-# the Bangalore qualified list regardless of how strong the trigger is.
+# UPDATED 2026-08-23: all three cities below are now QUALIFIED sales
+# territories, scored and reported identically. Chennai and Hyderabad were
+# previously "market_intelligence_only" (never promoted into the qualified
+# opportunity list) -- that restriction was lifted per explicit instruction.
+# Bangalore remains the primary/most-covered market in practice, but the
+# qualification rule below applies the same way to all three.
 
-primary_sales_territory:
-  city: "Bangalore"
-  aliases: ["Bengaluru", "Bangalore Urban", "Bangalore, Karnataka"]
-  qualification_rule: >
-    A company qualifies for the Bangalore regional opportunity list ONLY if
-    its registered/corporate HEADQUARTERS is in Bangalore, verified per the
-    hq-verification skill. Campaign geography, office presence, founder
-    residence, or employee headcount in Bangalore do NOT qualify a company.
-  hq_statuses:
-    - BANGALORE_HQ_VERIFIED   # eligible for the qualified list
-    - NON_BANGALORE_HQ_VERIFIED
-    - HQ_UNVERIFIED           # goes to HQ_VERIFICATION_QUEUE, never assumed
-
-market_research_cities:
+qualified_sales_territories:
+  - city: "Bangalore"
+    aliases: ["Bengaluru", "Bangalore Urban", "Bangalore, Karnataka"]
   - city: "Chennai"
     aliases: ["Chennai, Tamil Nadu"]
-    role: "market_intelligence_only"
   - city: "Hyderabad"
     aliases: ["Hyderabad, Telangana", "Secunderabad"]
-    role: "market_intelligence_only"
 
-notes: >
-  Chennai/Hyderabad-HQ companies are tracked in the companies table with
-  hq_city set accordingly and NEVER appear in reports section "BANGALORE-HQ
-  COMPANIES WITH NEW BUSINESS TRIGGERS" or any qualified-opportunity list.
-  They surface only in explicit market-research queries.
+qualification_rule: >
+  A company qualifies for the opportunity list ONLY if its registered/
+  corporate HEADQUARTERS is in Bangalore, Chennai, or Hyderabad, verified
+  per the hq-verification process (CIN / registered-office evidence --
+  never assumed from campaign geography, office presence, employee
+  headcount, or founder residence). For an INTERNATIONAL company (global
+  HQ outside India), it qualifies if its INDIA head office is in one of
+  these three cities -- the global HQ location is irrelevant in that case.
+  A foreign company merely opening AN office in one of these cities while
+  headquartering its India operations elsewhere does NOT qualify.
+
+hq_statuses:
+  - BANGALORE_HQ_VERIFIED       # eligible for the qualified list
+  - CHENNAI_HQ_VERIFIED         # eligible for the qualified list
+  - HYDERABAD_HQ_VERIFIED       # eligible for the qualified list
+  - NON_QUALIFIED_HQ_VERIFIED   # HQ verified but not in any qualified city
+  - HQ_UNVERIFIED               # goes to HQ_VERIFICATION_QUEUE, never assumed
+
+target_audience_filter: >
+  Passing the city-HQ gate above is necessary but not sufficient -- see
+  config/target-criteria.yaml for the B2B / high-ticket-B2C screen that
+  also applies before a company is worth scoring at all.
+
+history: >
+  Prior to 2026-08-23, Chennai and Hyderabad were "market_intelligence_only"
+  and never promoted into the qualified opportunity list regardless of
+  trigger strength, and NON_QUALIFIED_HQ_VERIFIED was named
+  NON_BANGALORE_HQ_VERIFIED. Both changed on 2026-08-23 per explicit
+  instruction; database/sales.db is migrated in place by src/db/init_db.py.

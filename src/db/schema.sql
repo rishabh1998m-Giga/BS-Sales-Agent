@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS company_hq (
     claimed_city    TEXT,                        -- city mentioned in the triggering source
     hq_city         TEXT,                        -- verified HQ city, NULL if unverified
     hq_status       TEXT NOT NULL CHECK (hq_status IN
-                        ('BANGALORE_HQ_VERIFIED','NON_BANGALORE_HQ_VERIFIED','HQ_UNVERIFIED')),
+                        ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED',
+                         'NON_QUALIFIED_HQ_VERIFIED','HQ_UNVERIFIED')),
     evidence        TEXT,                        -- quote/snippet supporting the verdict
     source_url      TEXT,
     verified_at     TEXT DEFAULT (datetime('now')),
@@ -222,7 +223,7 @@ CREATE TABLE IF NOT EXISTS opportunities (
     recommended_product TEXT,
     recommended_contact_id INTEGER REFERENCES contacts(contact_id),
     recommended_action TEXT,
-    is_qualified_bangalore INTEGER DEFAULT 0,      -- hard gate result, 0/1
+    is_qualified_target INTEGER DEFAULT 0,         -- city-HQ hard gate result, 0/1
     scored_at       TEXT DEFAULT (datetime('now')),
     score_breakdown TEXT                            -- JSON string of weighted sub-scores
 );

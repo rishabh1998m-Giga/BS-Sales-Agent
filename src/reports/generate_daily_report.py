@@ -40,7 +40,7 @@ def build_report(conn, report_date: str) -> str:
     lines.append(f"{report_date}")
     lines.append("================================")
 
-    top10 = top_opportunities(conn, bangalore_only=True, limit=10)
+    top10 = top_opportunities(conn, qualified_only=True, limit=10)
     lines.append(section("1. TOP 10 NEW SALES OPPORTUNITIES"))
     if top10:
         for r in top10:
@@ -48,12 +48,13 @@ def build_report(conn, report_date: str) -> str:
     else:
         lines.append("_No scored opportunities in the database yet. Run the daily-sales-brief skill._")
 
-    lines.append(section("2. BANGALORE-HQ COMPANIES WITH NEW BUSINESS TRIGGERS"))
+    lines.append(section("2. QUALIFIED-MARKET (BANGALORE/CHENNAI/HYDERABAD) COMPANIES WITH NEW BUSINESS TRIGGERS"))
     rows = conn.execute(
         """SELECT DISTINCT c.name, t.trigger_type FROM opportunity_triggers t
            JOIN companies c ON c.company_id = t.company_id
            JOIN company_hq h ON h.company_id = c.company_id
-           WHERE h.hq_status = 'BANGALORE_HQ_VERIFIED' AND t.is_open = 1
+           WHERE h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')
+             AND t.is_open = 1
            ORDER BY t.opened_at DESC LIMIT 20"""
     ).fetchall()
     for r in rows:
@@ -106,7 +107,8 @@ def build_report(conn, report_date: str) -> str:
         """SELECT c.name FROM competitor_activity ca
            JOIN companies c ON c.company_id = ca.company_id
            JOIN company_hq h ON h.company_id = c.company_id
-           WHERE ca.leakage_flag = 1 AND h.hq_status = 'BANGALORE_HQ_VERIFIED'"""
+           WHERE ca.leakage_flag = 1
+             AND h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')"""
     ).fetchall()
     for r in rows:
         lines.append(f"- {r['name']} — spending with competitors, no known BS activity")
@@ -117,7 +119,7 @@ def build_report(conn, report_date: str) -> str:
     rows = conn.execute(
         """SELECT c.name, o.trigger_count, o.score FROM opportunities o
            JOIN companies c ON c.company_id = o.company_id
-           WHERE o.trigger_count >= 3 AND o.is_qualified_bangalore = 1
+           WHERE o.trigger_count >= 3 AND o.is_qualified_target = 1
            ORDER BY o.score DESC"""
     ).fetchall()
     for r in rows:
@@ -139,7 +141,7 @@ def build_report(conn, report_date: str) -> str:
         lines.append("_None due._")
 
     lines.append(section("13. TODAY'S TOP 5 ACTIONS"))
-    top5 = top_opportunities(conn, bangalore_only=True, limit=5)
+    top5 = top_opportunities(conn, qualified_only=True, limit=5)
     if top5:
         for i, r in enumerate(top5, 1):
             lines.append(
@@ -160,7 +162,7 @@ def main():
     conn = connect()
     report_md = build_report(conn, args.date)
 
-    top5 = [dict(r) for r in top_opportunities(conn, bangalore_only=True, limit=5)]
+    top5 = [dict(r) for r in top_opportunities(conn, qualified_only=True, limit=5)]
     conn.execute(
         """INSERT INTO daily_reports (report_date, top5_json, full_report_md)
            VALUES (?, ?, ?)

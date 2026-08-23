@@ -8,7 +8,7 @@ pure function of its inputs: it does not do research or judgment calls
 (that's the sales-opportunity-analysis / opportunity-scoring skills' job
 when run inside Claude) — it just turns 0-10 sub-scores that a skill/agent
 has already judged into a final 0-100 score, classification, and the
-Bangalore hard-gate decision.
+qualified-market (Bangalore/Chennai/Hyderabad) hard-gate decision.
 """
 import sys
 from pathlib import Path
@@ -22,6 +22,9 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = ROOT / "config" / "scoring.yaml"
+
+# Kept in sync with config/cities.yaml qualified_sales_territories.
+QUALIFIED_HQ_STATUSES = {"BANGALORE_HQ_VERIFIED", "CHENNAI_HQ_VERIFIED", "HYDERABAD_HQ_VERIFIED"}
 
 
 class SubScores(TypedDict, total=False):
@@ -87,13 +90,13 @@ def score_opportunity(
     total = min(total, bonus_cfg.get("cap_at", 100))
     total = max(0, total)
 
-    is_qualified_bangalore = 1 if hq_status == "BANGALORE_HQ_VERIFIED" else 0
+    is_qualified_target = 1 if hq_status in QUALIFIED_HQ_STATUSES else 0
 
     return {
         "score": total,
         "classification": classify(total, cfg["bands"]),
         "score_breakdown": {**breakdown, "multi_trigger_bonus": bonus},
-        "is_qualified_bangalore": is_qualified_bangalore,
+        "is_qualified_target": is_qualified_target,
         "hq_status": hq_status,
     }
 
