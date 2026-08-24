@@ -182,6 +182,21 @@ evidence supports.
   recorded, log a new `leadership_changes` row rather than pitching a
   stale contact.
 
+## 13a2. Standing client watchlist (added 2026-08-23)
+
+`config/watchlist.yaml` lists specific company names the user wants
+checked every day, IN ADDITION TO (not instead of) open-ended discovery.
+Every name still goes through the same city-HQ and brand-fit gates before
+counting as a qualified opportunity -- being on the list only guarantees
+a check happens, not that it passes. As of 2026-08-23, 32 of 44 names are
+HQ-verified (see `data/pipeline/run_2026-08-23d_watchlist.py` for full
+evidence); a handful remain `unverified` or `needs_clarification` --
+prioritize those in future runs. Note the clarified interpretation of
+"headquartered": the operational/functional HQ (what the company itself
+calls its head office), not strictly the CIN-registration state -- several
+verified companies are legally registered elsewhere for historical reasons
+(e.g. Duroflex: registered Kerala, operational HQ Bangalore).
+
 ## 13b2. Preferred sources and state/brand events (added 2026-08-23)
 
 `config/preferred-sources.yaml` names Chittorgarh.com as the primary IPO
