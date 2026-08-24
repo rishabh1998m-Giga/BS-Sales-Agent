@@ -1,0 +1,75 @@
+# Standing client watchlist (added 2026-08-23, per direct instruction).
+#
+# This is NOT an exclusive list -- general open-ended discovery across
+# Bangalore/Chennai/Hyderabad continues exactly as before. This list exists
+# so a named brand's news is never missed just because open-ended search
+# didn't happen to surface it that day.
+#
+# Every name here still goes through the SAME hard gates as anything else
+# found by open discovery before it counts as a qualified opportunity:
+#   1. City-HQ gate (config/cities.yaml) -- verified via CIN/registered
+#      office, never assumed. Several names below are large companies with
+#      a global or non-qualified-city HQ (e.g. a US company with an India
+#      office that isn't its India HQ) -- being on this list does not make
+#      them qualify; it only guarantees they get checked.
+#   2. Brand-fit gate (config/target-criteria.yaml).
+#
+# `status` values: verified_qualified / verified_non_qualified / unverified
+# (not yet checked -- the daily job should prioritize these first).
+# See database/sales.db companies + company_hq tables for the authoritative,
+# up-to-date verification record once checked -- this file is the standing
+# request list, not a live status mirror.
+
+companies:
+  - name: "ClearTax"
+  - name: "Evolve Back"
+  - name: "Nambiar Builders"
+  - name: "Sobha Ltd"
+  - name: "Sundaram Mutual Fund"
+  - name: "Saint-Gobain"          # pasted as "Gobain"
+  - name: "IBM"
+  - name: "Stable Money"
+  - name: "Jiraaf"
+  - name: "Adobe"
+  - name: "Salesforce"
+  - name: "Wakefit"
+  - name: "Kyndryl"               # pasted as "Kyndrl"
+  - name: "OnePlus"
+  - name: "Razorpay"
+  - name: "Seiko"
+  - name: "DS Max Properties"
+  - name: "Acer"
+  - name: "IIM"                   # ambiguous -- which IIM (Bangalore likely meant); confirm before treating as a single entity
+  - name: "Sify"
+  - name: "Delhivery"
+  - name: "Globbel"               # name as pasted; could not identify -- confirm spelling/company before researching
+  - name: "Finnpartners"
+    note: "Pasted as 'Finnpartners - Marketing Agency' -- this is an agency, not a brand advertiser. Track for Section 16 (industry movement) relevance, not as a direct ad-sales prospect, unless the agency itself wants to advertise its own services."
+  - name: "Sattva Group"
+  - name: "Movado"
+  - name: "Duroflex"
+  - name: "Dell"
+  - name: "Purvankara"
+  - name: "Ujjivan Small Finance Bank"   # pasted as "Ujjivan Bank"
+  - name: "Assetz Property Group"
+  - name: "Shriram Properties"
+  - name: "Vector Consulting"
+  - name: "Canara Bank"
+  - name: "Coorg Wilderness"
+  - name: "Toyota"
+  - name: "Cashfree Payments"
+  - name: "Jify"                  # name as pasted; could not identify with confidence -- confirm spelling/company before researching
+  - name: "Groww"
+    note: "Already tracked (company_id in database/sales.db) -- no re-add needed."
+  - name: "AltDRX"                # pasted as "Alt DRX"
+  - name: "Guidewire"
+  - name: "Fisdom"
+  - name: "Jana Small Finance Bank"      # pasted as "Jana Bank"
+  - name: "Prestige Group"
+  - name: "Mudrex"
+  - name: "Navi"
+    note: "Already tracked as 'Navi Technologies' (company_id in database/sales.db) -- no re-add needed."
+  - name: "IKEA"
+  - name: "Ather"
+    note: "Already tracked as 'Ather Energy' (company_id in database/sales.db) -- no re-add needed."
+  - name: "Ultraviolette"
