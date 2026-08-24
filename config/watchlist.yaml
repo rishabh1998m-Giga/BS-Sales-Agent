@@ -8,68 +8,169 @@
 # Every name here still goes through the SAME hard gates as anything else
 # found by open discovery before it counts as a qualified opportunity:
 #   1. City-HQ gate (config/cities.yaml) -- verified via CIN/registered
-#      office, never assumed. Several names below are large companies with
-#      a global or non-qualified-city HQ (e.g. a US company with an India
-#      office that isn't its India HQ) -- being on this list does not make
-#      them qualify; it only guarantees they get checked.
+#      office OR operational/corporate HQ (per the user's clarification:
+#      "headquartered" means the functional HQ the company itself calls
+#      its head office, not strictly the legal CIN-registration state --
+#      several companies below are registered elsewhere for historical
+#      reasons but operationally HQ'd in a qualified city).
 #   2. Brand-fit gate (config/target-criteria.yaml).
+# Being on this list does not make a company qualify; it only guarantees
+# it gets checked.
 #
-# `status` values: verified_qualified / verified_non_qualified / unverified
-# (not yet checked -- the daily job should prioritize these first).
-# See database/sales.db companies + company_hq tables for the authoritative,
-# up-to-date verification record once checked -- this file is the standing
-# request list, not a live status mirror.
+# `status`: verified_qualified / verified_non_qualified / unverified
+# (not yet checked -- daily job should prioritize these first) /
+# needs_clarification (name too ambiguous to research as-is).
+# See database/sales.db companies + company_hq tables for the full
+# evidence trail once verified -- this file tracks status at a glance,
+# not the detailed evidence (that's in data/pipeline/run_2026-08-23d_watchlist.py).
 
 companies:
   - name: "ClearTax"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Evolve Back"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Nambiar Builders"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Sobha Ltd"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Sundaram Mutual Fund"
+    status: verified_qualified
+    hq_city: Chennai
   - name: "Saint-Gobain"          # pasted as "Gobain"
+    status: verified_qualified
+    hq_city: Chennai
   - name: "IBM"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Stable Money"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Jiraaf"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Adobe"
+    status: verified_non_qualified
+    note: "India HQ is Noida, UP -- not a qualified city despite a large Bengaluru engineering office."
   - name: "Salesforce"
+    status: unverified
+    note: "Major offices in both Bengaluru and Hyderabad (both qualified cities) but no single definitive 'India HQ' entity/CIN confirmed yet -- needs a follow-up pass, don't assume."
   - name: "Wakefit"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Kyndryl"               # pasted as "Kyndrl"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "OnePlus"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Razorpay"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Seiko"
+    status: unverified
+    note: "Likely distribution-only presence in India, no evident India HQ -- low priority, not yet researched in depth."
   - name: "DS Max Properties"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Acer"
-  - name: "IIM"                   # ambiguous -- which IIM (Bangalore likely meant); confirm before treating as a single entity
+    status: verified_qualified
+    hq_city: Bengaluru
+  - name: "IIM"
+    status: needs_clarification
+    note: "Ambiguous which IIM (Bangalore likely meant, but there are multiple IIMs) -- confirm which specific institute before researching."
   - name: "Sify"
+    status: verified_qualified
+    hq_city: Chennai
   - name: "Delhivery"
-  - name: "Globbel"               # name as pasted; could not identify -- confirm spelling/company before researching
+    status: verified_non_qualified
+    note: "Registered office New Delhi, operational HQ Gurugram -- neither is a qualified city."
+  - name: "Globbel"
+    status: needs_clarification
+    note: "Name as pasted; could not identify a matching company -- confirm spelling/company."
   - name: "Finnpartners"
+    status: needs_clarification
     note: "Pasted as 'Finnpartners - Marketing Agency' -- this is an agency, not a brand advertiser. Track for Section 16 (industry movement) relevance, not as a direct ad-sales prospect, unless the agency itself wants to advertise its own services."
   - name: "Sattva Group"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Movado"
+    status: unverified
+    note: "International luxury watch brand -- likely distribution-only presence in India, no evident India HQ. Low priority."
   - name: "Duroflex"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Legal registered office is technically Alappuzha, Kerala -- qualifies via operational/corporate HQ in Bangalore per the clarified rule."
   - name: "Dell"
-  - name: "Purvankara"
+    status: verified_qualified
+    hq_city: Bengaluru
+  - name: "Puravankara"           # pasted as "Purvankara"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Ujjivan Small Finance Bank"   # pasted as "Ujjivan Bank"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Assetz Property Group"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Shriram Properties"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Legal registered office is Chennai (also a qualified city); company's own materials call Bangalore its corporate headquarters -- qualifies either way."
   - name: "Vector Consulting"
+    status: unverified
+    note: "Sources lean Mumbai-headquartered with a Bangalore presence -- no clear CIN/registered-office confirmation found. Needs a dedicated follow-up before classifying either way."
   - name: "Canara Bank"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Coorg Wilderness"
+    status: needs_clarification
+    note: "This is a resort property (in Coorg/Madikeri), not clearly a standalone company -- appears to be operated by Paul John Resorts & Hotels (Bangalore business hub). Needs the actual parent legal entity identified before HQ verification."
   - name: "Toyota"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Via Toyota Kirloskar Motor, Bidadi (Bangalore Rural)."
   - name: "Cashfree Payments"
-  - name: "Jify"                  # name as pasted; could not identify with confidence -- confirm spelling/company before researching
+    status: verified_qualified
+    hq_city: Bengaluru
+  - name: "Jify"
+    status: needs_clarification
+    note: "Name as pasted; could not identify a matching company with confidence -- confirm spelling/company."
   - name: "Groww"
+    status: verified_qualified
     note: "Already tracked (company_id in database/sales.db) -- no re-add needed."
   - name: "AltDRX"                # pasted as "Alt DRX"
+    status: unverified
+    note: "Not yet researched in this pass."
   - name: "Guidewire"
+    status: verified_qualified
+    hq_city: Chennai
+    note: "Registered India entity is Chennai; also has a large Bengaluru engineering office."
   - name: "Fisdom"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Jana Small Finance Bank"      # pasted as "Jana Bank"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Prestige Group"
+    status: verified_qualified
+    hq_city: Bengaluru
   - name: "Mudrex"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "MEDIUM confidence -- exact CIN not independently confirmed in this pass."
   - name: "Navi"
+    status: verified_qualified
     note: "Already tracked as 'Navi Technologies' (company_id in database/sales.db) -- no re-add needed."
   - name: "IKEA"
+    status: verified_non_qualified
+    note: "India HQ (registered office) is Gurgaon, Haryana -- Bengaluru presence is a business-support office only."
   - name: "Ather"
+    status: verified_qualified
     note: "Already tracked as 'Ather Energy' (company_id in database/sales.db) -- no re-add needed."
   - name: "Ultraviolette"
+    status: verified_qualified
+    hq_city: Bengaluru
