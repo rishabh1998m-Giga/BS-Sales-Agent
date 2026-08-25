@@ -56,8 +56,9 @@ companies:
     status: verified_non_qualified
     note: "India HQ is Noida, UP -- not a qualified city despite a large Bengaluru engineering office."
   - name: "Salesforce"
-    status: unverified
-    note: "Major offices in both Bengaluru and Hyderabad (both qualified cities) but no single definitive 'India HQ' entity/CIN confirmed yet -- needs a follow-up pass, don't assume."
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Registered office (Salesforce.com India Pvt Ltd, CIN U72200KA2005PTC037330) is Bengaluru; largest India operational hub is Hyderabad -- both qualified cities, so this resolves as qualified either way (verified 2026-08-25)."
   - name: "Wakefit"
     status: verified_qualified
     hq_city: Bengaluru
@@ -121,8 +122,8 @@ companies:
     hq_city: Bengaluru
     note: "Legal registered office is Chennai (also a qualified city); company's own materials call Bangalore its corporate headquarters -- qualifies either way."
   - name: "Vector Consulting"
-    status: unverified
-    note: "Sources lean Mumbai-headquartered with a Bangalore presence -- no clear CIN/registered-office confirmation found. Needs a dedicated follow-up before classifying either way."
+    status: verified_non_qualified
+    note: "Vector Management Consulting Pvt Ltd registered office is Thane, Maharashtra (Mumbai-adjacent) -- not a qualified city despite a Bangalore presence (verified 2026-08-25)."
   - name: "Canara Bank"
     status: verified_qualified
     hq_city: Bengaluru
