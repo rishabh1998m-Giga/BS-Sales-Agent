@@ -144,8 +144,9 @@ companies:
     status: verified_qualified
     note: "Already tracked (company_id in database/sales.db) -- no re-add needed."
   - name: "AltDRX"                # pasted as "Alt DRX"
-    status: unverified
-    note: "Not yet researched in this pass."
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Alt DRX Pvt Ltd, tokenised real-estate investment platform, registered office Bengaluru (CIN U70200KA2022PTC166655), verified 2026-08-26. Only funding event on record (May 2025 Pre-Series A) is 15 months old -- no fresh trigger scored today."
   - name: "Guidewire"
     status: verified_qualified
     hq_city: Chennai
