@@ -16,3 +16,98 @@ ipo:
     opportunity, per the city-HQ gate.
 
 state_events: "See config/state-events.yaml for named summits and brand-hosted-event research guidance."
+
+# Added 2026-08-28, per explicit instruction -- named preferred sources for
+# the other research areas the daily job already does, so search queries
+# can target these directly instead of generic web search.
+
+funding_and_startup_news:
+  sources:
+    - name: "YourStory"
+      domain: "yourstory.com"
+    - name: "Inc42"
+      domain: "inc42.com"
+    - name: "Entrackr"
+      domain: "entrackr.com"
+    - name: "VCCircle"
+      domain: "vccircle.com"
+    - name: "TechCrunch India"
+      domain: "techcrunch.com"
+  note: >
+    Where most funding-round, product-launch, and expansion stories used
+    in this pipeline actually originate. Check these first for daily
+    trigger discovery (Sections 4-7 of the report), same way Chittorgarh
+    is checked first for IPOs -- still independently verify HQ city and
+    the brand-fit gate before treating anything found here as qualified.
+
+hq_verification_databases:
+  sources:
+    - name: "Zaubacorp"
+      domain: "zaubacorp.com"
+    - name: "Tofler"
+      domain: "tofler.in"
+    - name: "Tracxn"
+      domain: "tracxn.com"
+    - name: "IndiaFilings"
+      domain: "indiafilings.com"
+    - name: "MCA (Ministry of Corporate Affairs)"
+      domain: "mca.gov.in"
+      note: "Official government source -- the authoritative record when a corporate-database aggregator's listing is ambiguous or contested."
+  note: >
+    Already the de facto sources used for every CIN/registered-office
+    check in this pipeline (see data/pipeline/*.py evidence citations) --
+    named explicitly here for consistency, not a change in method.
+
+real_estate_news:
+  sources:
+    - name: "99acres News"
+      domain: "99acres.com"
+    - name: "Housing.com News"
+      domain: "housing.com"
+    - name: "PropTiger"
+      domain: "proptiger.com"
+    - name: "Moneycontrol Realty"
+      domain: "moneycontrol.com"
+  note: >
+    Added because the watchlist (config/watchlist.yaml) now includes many
+    real-estate developers (Embassy, Sobha, Prestige, Sumadhura, Century
+    Real Estate, Concorde, Total Environment, Puravankara, Shriram
+    Properties, TVS Emerald). These sources surface project launches and
+    land acquisitions -- a real, considered-purchase EXPANSION or
+    PRODUCT_LAUNCH trigger -- that generic search sometimes misses. Still
+    apply the city-HQ gate independently; a project location is not the
+    same as a company's HQ.
+
+government_regulatory:
+  sources:
+    - name: "SEBI (filings/DRHP portal)"
+      domain: "sebi.gov.in"
+    - name: "BSE announcements"
+      domain: "bseindia.com"
+    - name: "NSE announcements"
+      domain: "nseindia.com"
+  note: >
+    Backup/cross-check to Chittorgarh.com for IPO and material-event
+    filings -- use when a Chittorgarh-sourced claim needs a primary-source
+    citation, or when Chittorgarh doesn't have a listing yet for a company
+    known to be filing.
+
+city_business_chambers:
+  sources:
+    - name: "FKCCI (Federation of Karnataka Chambers of Commerce & Industry)"
+      city: "Bangalore"
+      domain: "fkcci.in"
+    - name: "Madras Chamber of Commerce and Industry"
+      city: "Chennai"
+      domain: "mcciindia.com"
+    - name: "FTCCI (Federation of Telangana Chambers of Commerce and Industry)"
+      city: "Hyderabad"
+      domain: "ftcci.in"
+    - name: "NASSCOM (regional/city pages)"
+      city: "Bangalore/Hyderabad -- tech-industry coverage"
+      domain: "nasscom.in"
+  note: >
+    Member-company announcements (expansions, new facilities, leadership)
+    sometimes surface here before general business press picks them up.
+    Lower-frequency check than the other source groups -- worth a look
+    when general search comes back thin for a given city on a given day.

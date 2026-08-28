@@ -9,6 +9,12 @@ sources:
     domain: "exchange4media.com"
   - name: "afaqs!"
     domain: "afaqs.com"
+  - name: "Storyboard18"
+    domain: "storyboard18.com"
+    added: "2026-08-28"
+  - name: "Campaign India"
+    domain: "campaignindia.in"
+    added: "2026-08-28"
 
 purpose: >
   A short (2-3 line) daily digest of industry movement news: an agency

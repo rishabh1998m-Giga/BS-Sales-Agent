@@ -213,6 +213,27 @@ question every pass: does any qualified-city company have its OWN upcoming
 flagship event (anniversary, community day, conference) worth an
 EVENT-trigger pitch for banner/roadblock coverage?
 
+As of 2026-08-28, `config/preferred-sources.yaml` also names five more
+source groups to check as part of every daily pass, not just Chittorgarh:
+`funding_and_startup_news` (YourStory, Inc42, Entrackr, VCCircle,
+TechCrunch India -- check these directly for Sections 4-7 discovery,
+same first-look treatment as Chittorgarh for IPOs), `hq_verification_databases`
+(Zaubacorp, Tofler, Tracxn, IndiaFilings, MCA -- formalizes the sources
+already used for every CIN/registered-office citation in
+`data/pipeline/*.py`, no change in method), `real_estate_news` (99acres,
+Housing.com, PropTiger, Moneycontrol Realty -- added because the
+watchlist now carries many real-estate developers), `government_regulatory`
+(SEBI, BSE, NSE -- backup/cross-check to Chittorgarh), and
+`city_business_chambers` (FKCCI/Bangalore, Madras Chamber/Chennai,
+FTCCI/Hyderabad, NASSCOM -- lower-frequency, worth checking when general
+search comes back thin for a city on a given day). None of these bypass
+the city-HQ gate or the brand-fit filter -- they're additional places to
+look, not additional ways to qualify.
+
+`config/industry-movement-sources.yaml` was similarly widened on
+2026-08-28 to add Storyboard18 and Campaign India alongside
+Exchange4Media and afaqs! for the Section 16 agency/CMO-movement digest.
+
 ## 13c. Industry movement digest (Section 16, added 2026-08-23)
 
 Separate from the Section 9-10 ad-placement/ROS-roadblock competitor list
