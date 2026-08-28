@@ -72,8 +72,9 @@ companies:
     status: verified_qualified
     hq_city: Bengaluru
   - name: "Seiko"
-    status: unverified
-    note: "Likely distribution-only presence in India, no evident India HQ -- low priority, not yet researched in depth."
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Seiko Watch India Pvt Ltd, registered office Indiranagar, Bangalore 560038 (CIN U33301KA2007FTC041898), verified 2026-08-28. Luxury watches are a considered/higher-ticket purchase (same reasoning as the Lexus example in config/target-criteria.yaml), so this passes the brand-fit gate too."
   - name: "DS Max Properties"
     status: verified_qualified
     hq_city: Bengaluru
@@ -100,7 +101,7 @@ companies:
     hq_city: Bengaluru
   - name: "Movado"
     status: unverified
-    note: "International luxury watch brand -- likely distribution-only presence in India, no evident India HQ. Low priority."
+    note: "International luxury watch brand -- searched again 2026-08-28, still no dedicated Movado India entity/CIN found (distribution likely via multi-brand retail rather than a wholly-owned India subsidiary, unlike Seiko). Low priority, not fabricated."
   - name: "Duroflex"
     status: verified_qualified
     hq_city: Bengaluru
