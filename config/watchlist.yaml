@@ -177,3 +177,110 @@ companies:
   - name: "Ultraviolette"
     status: verified_qualified
     hq_city: Bengaluru
+
+  # --- Added 2026-08-28, second batch from user. Purvankara/Puravankara,
+  # Stable Money, Fisdom, Ultraviolette Automotive, Prestige Group, Sobha,
+  # Evolve Back, Assetz Property, Shriram Properties were already present
+  # above (deduplicated, not re-added). Agnikul Cosmos and Airbound
+  # Aerospace were already tracked in database/sales.db from the daily
+  # pipeline runs of 2026-08-25/26 (not previously in this file).
+  - name: "Kurlon"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Kurlon Limited (the original brand entity), registered office Manipal Centre, Dickenson Road, Bangalore (CIN U17214KA1962PLC001443). NOTE: Sheela Foam Ltd acquired 94.66% of the separate 'Kurlon Enterprise Limited' entity in 2023 (that entity is Mumbai-registered, CIN U36101MH2011PLC222657) -- Kurlon Limited itself remains Bangalore-registered. Mattresses are a considered/higher-ticket purchase, same reasoning as Wakefit/Duroflex."
+  - name: "Sleepyhead"
+    status: verified_non_qualified
+    note: "Brand of Sheela Foam Ltd -- registered office Mumbai (CIN L74899MH1971PLC427835), operational HQ Noida, UP. Unlike Kurlon, Sleepyhead has no separate Bangalore-registered entity -- not a qualified city."
+  - name: "Perfios"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Perfios Software Solutions Pvt Ltd, Adugodi, Bangalore 560030 (CIN U72200KA2008PTC046602). B2B fintech infrastructure."
+  - name: "Stable Money"
+    status: verified_qualified
+    note: "Already verified above (duplicate in the pasted list) -- no re-add needed."
+  - name: "Titan"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Titan Company Ltd -- corporate/operational HQ is Electronic City, Bangalore per the company's own materials; legal registered office is technically Hosur, Tamil Nadu (CIN L74999TZ1984PLC001456), not one of the 3 qualified cities itself. Qualifies via the operational-HQ rule, same pattern as Duroflex/Sattva/ClearTax. Jewellery (Tanishq) and watches are a considered/higher-ticket purchase."
+  - name: "Fisdom"
+    status: verified_qualified
+    note: "Already verified above (duplicate in the pasted list) -- no re-add needed."
+  - name: "Scripbox"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Scripbox.com India Pvt Ltd, Old Airport Road, Bangalore 560008 (CIN U74900KA2012PTC062020). Wealth-management platform -- considered financial decision, same reasoning as Stable Money/Jiraaf."
+  - name: "MoneyView"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Moneyview Limited, Marathahalli, Bangalore 560103 (CIN U72200KA2014PLC075775). Personal-loan lending app -- considered financial decision."
+  - name: "Ultraviolette Automotive"
+    status: verified_qualified
+    note: "Already verified above as 'Ultraviolette' (duplicate in the pasted list) -- no re-add needed."
+  - name: "Pravaig Dynamics"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Operational HQ / manufacturing hub at the Defense and Aerospace Park, Bangalore, per the company's own social/media presence -- NOTE: legal registered office is technically New Delhi (CIN U34100DL2019PTC351262). Qualifies under the operational-HQ rule. Electric vehicles are a considered/higher-ticket purchase."
+  - name: "Prestige Group"
+    status: verified_qualified
+    note: "Already verified above (duplicate in the pasted list) -- no re-add needed."
+  - name: "Sobha"
+    status: verified_qualified
+    note: "Already verified above as 'Sobha Ltd' (duplicate in the pasted list) -- no re-add needed."
+  - name: "Purvankara"
+    status: verified_qualified
+    note: "Already verified above as 'Puravankara' (duplicate in the pasted list, same spelling variant already noted there) -- no re-add needed."
+  - name: "TVS Emerald"
+    status: verified_qualified
+    hq_city: Chennai
+    note: "TVS Emerald Ltd (formerly Emerald Haven Realty), Nungambakkam High Road, Chennai 600034 (CIN U45200TN2010PLC075953). Real estate -- considered/higher-ticket purchase."
+  - name: "Evolve Back"
+    status: verified_qualified
+    note: "Already verified above (duplicate in the pasted list) -- no re-add needed."
+  - name: "Assetz Property"
+    status: verified_qualified
+    note: "Already verified above as 'Assetz Property Group' (duplicate in the pasted list) -- no re-add needed."
+  - name: "Sumadhura"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Sumadhura Infracon Pvt Ltd, Marathahalli, Bangalore 560037 (CIN U45200KA2012PTC062071). Real estate -- considered/higher-ticket purchase."
+  - name: "Shriram Properties"
+    status: verified_qualified
+    note: "Already verified above (duplicate in the pasted list) -- no re-add needed."
+  - name: "Embassy Group"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Embassy Property Developments Pvt Ltd, Infantry Road, Bangalore 560001 (CIN U85110KA1996PTC020897). Real estate/office parks -- considered/higher-ticket purchase."
+  - name: "Total Environment"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Total Environment Projects (India) Pvt Ltd, Whitefield, Bangalore 560066 (CIN U70102KA2006PTC040793). Real estate -- considered/higher-ticket purchase."
+  - name: "Century Real Estate"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Century Real Estate Holdings Pvt Ltd, Palace Road, Bangalore 560052 (CIN U70101KA2007PTC042078). Real estate -- considered/higher-ticket purchase."
+  - name: "Concorde Group"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Concorde Housing Corporation Pvt Ltd, registered at RoC-Bangalore (CIN U70102KA2008PTC046886). Real estate -- considered/higher-ticket purchase."
+  - name: "Madchatter Brand Solutions"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "PASTED AS 'Madchatters brand solutions'. Madchatter Brand Solutions Pvt Ltd, Bangalore (CIN U74999KA2022PTC165286). This is a PR/branding AGENCY, not a brand advertiser -- same treatment as Finnpartners: track for Section 16 (industry movement) relevance, not as a direct ad-sales prospect, unless the agency itself wants to advertise its own services."
+  - name: "Agnikul Cosmos"
+    status: verified_qualified
+    note: "Already tracked (company_id in database/sales.db, HQ-verified 2026-08-25) -- no re-add needed."
+  - name: "Airbound Aerospace"
+    status: verified_qualified
+    note: "PASTED AS 'Airbound Aerospaces' (x2, duplicate in the pasted list). Already tracked (company_id in database/sales.db, HQ-verified 2026-08-26) -- no re-add needed."
+  - name: "The ePlane Company"
+    status: verified_qualified
+    hq_city: Chennai
+    note: "PASTED TWICE (duplicate in the pasted list). Legal entity Ubifly Technologies Pvt Ltd, IIT Madras Research Park, Taramani, Chennai 600113. eVTOL/advanced air mobility -- B2B. CIN not independently confirmed in this pass -- MEDIUM confidence on the entity name, HIGH confidence on the Chennai location (multiple sources, company's own site)."
+  - name: "Sarla Aviation"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Sarla Aviation, Bengaluru HQ per multiple sources (Wikipedia, company's own 'New Bengaluru HQ' announcement, Tracxn). eVTOL/advanced air mobility -- B2B. CIN not independently confirmed in this pass -- MEDIUM confidence, revisit if precision is needed for outreach."
+  - name: "BluJ Aerospace"
+    status: verified_qualified
+    hq_city: Hyderabad
+    note: "BluJ Aerospace, Hyderabad-based per TechTimes and other coverage of its Gen 2 heavy-lift eVTOL prototype. B2B (logistics/defense). CIN not independently confirmed in this pass -- MEDIUM confidence, revisit if precision is needed for outreach."
