@@ -359,3 +359,41 @@ companies:
   #     startups, IN-SPACe authorized) -- HQ city plausible (Bangalore) but
   #     LinkedIn follower count and CIN not found in this pass; revisit in
   #     a future run rather than guessing.
+
+  # --- Added 2026-08-29, EV vehicle/manufacturing sweep of the 3 qualified
+  # cities, per user request. Ather Energy, Ultraviolette, Yulu, River
+  # Mobility, Pravaig Dynamics, and Toyota Kirloskar Motor were already
+  # tracked before this batch -- not re-added. Electric two-wheelers/cars
+  # are a considered/higher-ticket B2C purchase; battery-swap and rapid-
+  # charging infra players are B2B (sell to fleets/other businesses) --
+  # both pass the brand-fit gate.
+  - name: "TVS Motor Company"
+    status: verified_qualified
+    hq_city: Chennai
+    note: "CIN L35921TN1992PLC022845, Khader Nawaz Khan Road, Nungambakkam, Chennai 600006. Publicly listed, makes the TVS iQube e-scooter among other vehicles. LinkedIn: ~781,304 followers -- the largest of this batch."
+  - name: "Ola Electric Mobility"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "CIN L74999KA2017PLC099619, Koramangala, Bangalore 560095. E-scooter manufacturer, publicly listed (2024 IPO). LinkedIn: ~644,101 followers."
+  - name: "SUN Mobility"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "CIN U35100KA2016PTC124376, Whitefield, Bangalore 560048. Battery-swapping infrastructure -- B2B, sells to fleet operators. LinkedIn: ~152,700 followers."
+  - name: "Simple Energy"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Simpleenergy Pvt Ltd, CIN U29309KA2019PTC127859, Venkatala Village, Bangalore 560064. E-scooter manufacturer (Simple One). LinkedIn: ~66,213 followers."
+  - name: "Exponent Energy"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "CIN U34300KA2020PTC139964, Singasandra, Bangalore 560068. 15-minute rapid-charging tech for commercial EVs -- B2B. LinkedIn: ~50,826 followers."
+  - name: "Bounce Infinity"
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "Registered address JP Nagar 3rd Phase, Bangalore 560078 -- exact CIN not independently confirmed in this pass (a related entity, Bounce Electric 1 Pvt Ltd, shows a Haryana registration; the Bangalore address is the one consistently cited for the Bounce Infinity brand/operations), MEDIUM confidence. E-scooters with removable batteries. LinkedIn: ~12,099 followers -- 10k-30k band."
+
+  # Checked but NOT added -- no comparably large, independent EV
+  # MANUFACTURER headquartered in Hyderabad was found in this pass (mostly
+  # component/battery suppliers and smaller charging-infra players below
+  # the follower bands used elsewhere in this file); worth a dedicated
+  # follow-up pass rather than padding this list with weak fits.
