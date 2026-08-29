@@ -30,7 +30,7 @@ def build_weekly_report(conn, as_of: str) -> str:
     rows = conn.execute(
         """SELECT c.name, o.score, o.classification, o.primary_trigger, o.scored_at
            FROM opportunities o JOIN companies c ON c.company_id = o.company_id
-           WHERE date(o.scored_at) >= date(?) AND o.is_qualified_target = 1
+           WHERE date(o.scored_at, '+5 hours', '+30 minutes') >= date(?) AND o.is_qualified_target = 1
            ORDER BY o.scored_at DESC""",
         (since,),
     ).fetchall()

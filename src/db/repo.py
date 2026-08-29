@@ -262,11 +262,18 @@ def todays_opportunities(conn: sqlite3.Connection, report_date: str, qualified_o
     (e.g. CRED scored yesterday, nothing new today) is correctly absent
     today rather than repeated -- avoids re-reporting the same thing
     (and re-generating its pitch draft) day after day for no reason.
+
+    scored_at is stored via SQLite's datetime('now'), which is UTC -- but
+    report_date is always an IST calendar date (this project serves an
+    India-based user; the daily trigger fires at 1:30 AM IST = 20:00 UTC
+    the PREVIOUS day, so comparing raw UTC dates would silently show
+    every run as empty). Convert to IST (+5:30) before taking date() so
+    "today" means the same day the user experiences.
     """
     query = """
         SELECT o.*, c.name AS company_name FROM opportunities o
         JOIN companies c ON c.company_id = o.company_id
-        WHERE date(o.scored_at) = date(?)
+        WHERE date(o.scored_at, '+5 hours', '+30 minutes') = date(?)
     """
     if qualified_only:
         query += " AND o.is_qualified_target = 1"

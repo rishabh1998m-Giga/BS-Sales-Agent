@@ -8,6 +8,13 @@ verified, and scored into the DB during the day's run — it does not do any
 research itself. See .claude/skills/daily-sales-brief/SKILL.md for the
 end-to-end workflow this script slots into.
 
+--date is always an IST calendar date (this project serves an India-based
+user). SQLite's datetime('now') defaults store UTC, so every "today"-scoped
+query here converts stored timestamps to IST (+5:30) before comparing dates
+-- added 2026-08-30 after the daily trigger moved to 1:30 AM IST (= 20:00
+UTC the PREVIOUS day), which was silently producing empty reports because
+raw UTC-vs-IST date comparison never matched.
+
 Usage:
     python3 src/reports/generate_daily_report.py [--date YYYY-MM-DD]
 """
@@ -111,7 +118,7 @@ def build_report(conn, report_date: str) -> str:
            JOIN companies c ON c.company_id = t.company_id
            JOIN company_hq h ON h.company_id = c.company_id
            WHERE h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')
-             AND t.is_open = 1 AND date(t.opened_at) = date(?)
+             AND t.is_open = 1 AND date(t.opened_at, '+5 hours', '+30 minutes') = date(?)
            ORDER BY t.opened_at DESC LIMIT 20""",
         (report_date,),
     ).fetchall()
@@ -131,7 +138,7 @@ def build_report(conn, report_date: str) -> str:
         rows = conn.execute(
             f"""SELECT c.name, {table}.* FROM {table}
                 JOIN companies c ON c.company_id = {table}.company_id
-                WHERE date({table}.created_at) = date(?)
+                WHERE date({table}.created_at, '+5 hours', '+30 minutes') = date(?)
                 ORDER BY {table}.created_at DESC LIMIT 15""",
             (report_date,),
         ).fetchall()
@@ -146,7 +153,7 @@ def build_report(conn, report_date: str) -> str:
     rows = conn.execute(
         """SELECT c.name, l.person_name, l.title, l.appointment_date FROM leadership_changes l
            JOIN companies c ON c.company_id = l.company_id
-           WHERE date(l.created_at) = date(?)
+           WHERE date(l.created_at, '+5 hours', '+30 minutes') = date(?)
            ORDER BY l.created_at DESC LIMIT 15""",
         (report_date,),
     ).fetchall()
@@ -159,7 +166,7 @@ def build_report(conn, report_date: str) -> str:
     rows = conn.execute(
         """SELECT c.name, camp.publisher, camp.campaign_type, camp.date_observed FROM campaigns camp
            JOIN companies c ON c.company_id = camp.company_id
-           WHERE date(camp.created_at) = date(?)
+           WHERE date(camp.created_at, '+5 hours', '+30 minutes') = date(?)
            ORDER BY camp.created_at DESC LIMIT 15""",
         (report_date,),
     ).fetchall()
@@ -173,7 +180,7 @@ def build_report(conn, report_date: str) -> str:
         """SELECT c.name FROM competitor_activity ca
            JOIN companies c ON c.company_id = ca.company_id
            JOIN company_hq h ON h.company_id = c.company_id
-           WHERE ca.leakage_flag = 1 AND date(ca.created_at) = date(?)
+           WHERE ca.leakage_flag = 1 AND date(ca.created_at, '+5 hours', '+30 minutes') = date(?)
              AND h.hq_status IN ('BANGALORE_HQ_VERIFIED','CHENNAI_HQ_VERIFIED','HYDERABAD_HQ_VERIFIED')""",
         (report_date,),
     ).fetchall()
