@@ -129,8 +129,9 @@ companies:
     status: verified_qualified
     hq_city: Bengaluru
   - name: "Coorg Wilderness"
-    status: needs_clarification
-    note: "This is a resort property (in Coorg/Madikeri), not clearly a standalone company -- appears to be operated by Paul John Resorts & Hotels (Bangalore business hub). Needs the actual parent legal entity identified before HQ verification."
+    status: verified_qualified
+    hq_city: Bengaluru
+    note: "RESOLVED 2026-09-04. Coorg Wilderness Resort & Spa is operated by Paul Resorts & Hotels Pvt Ltd, registered office Domlur, Bangalore 560071 (CIN U55101KA2003PTC032853). Luxury resort stays are a considered/higher-ticket purchase, same reasoning as Evolve Back (already qualified)."
   - name: "Toyota"
     status: verified_qualified
     hq_city: Bengaluru
